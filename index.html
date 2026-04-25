@@ -105,7 +105,6 @@
 <header><div class="logo">RYTI</div></header>
 
 <main>
-    <!-- 欢迎屏 -->
     <div id="intro-screen" class="screen active">
         <div class="intro-hero">
             <h1 class="intro-title">测出你的<br><span>乒乓灵魂人格</span></h1>
@@ -119,7 +118,6 @@
         </div>
     </div>
 
-    <!-- 问卷屏 -->
     <div id="quiz-screen" class="screen">
         <div class="progress-container"><div class="progress-bar" id="quiz-progress"></div></div>
         <div class="card" style="padding: 24px 20px;">
@@ -130,7 +128,6 @@
         </div>
     </div>
 
-    <!-- 结果屏 -->
     <div id="result-screen" class="screen">
         <div class="card result-card">
             <div class="avatar" id="player-avatar">🏓</div>
@@ -146,14 +143,12 @@
         </div>
     </div>
 
-    <!-- 底部链接和模态框 -->
     <div style="text-align: center; margin-top: 20px;">
         <a href="#" id="aboutLink" style="color: var(--green); text-decoration: underline; cursor: pointer; font-size: 13px;">📖 关于RYTI · 运动员库</a>
     </div>
     <div class="footer-note">RYTI ARCHIVE · 基于竞技人格算法</div>
 </main>
 
-<!-- 模态框结构（放在main外部，避免内容限制） -->
 <div id="modalOverlay">
     <div class="modal-content">
         <button class="close-modal" id="closeModalBtn">&times;</button>
@@ -163,14 +158,12 @@
         </p>
         <h3 style="font-size: 18px; margin: 16px 0 8px;">🏓 所有可能匹配的选手</h3>
         <div id="playerListModal">
-            <!-- 动态生成的运动员列表会放在这里 -->
         </div>
         <p style="font-size: 12px; color: #aaa; margin-top: 20px; text-align: center;">✨ 你的测试结果完全匿名，数据仅存储于本地</p>
     </div>
 </div>
 
 <script>
-    // 20道题目（保持不变）
     const QUESTIONS = [
         { text: "关键分落后时，你通常如何应对？", options: [
             { text: "相信自己的基本功，一分一分耐心追", tags: { technical: 2, patient: 2 } },
@@ -314,7 +307,6 @@
         ]}
     ];
 
-    // 运动员列表（15位）
     const PLAYERS = [
         { name: "马龙", img: "malong.png.jpg", traits: ["六边形战士", "技术全能", "定海神针"], desc: "你是乒乓球的绝对王者，技术库没有任何短板。既能在远台对拉，也能台内细腻控制，是所有人眼中的完美模板。", match: { technical: 3, patient: 2, tactical: 1, smart: 1 } },
         { name: "张继科", img: "zhangjike.png.jpg", traits: ["藏獒血性", "反手霸王", "大场面先生"], desc: "你是天生的斗士，骨子里流淌着桀骜。关键时刻的反手拧拉和那股嗜血杀气，总能让对手未战先怯。", match: { aggressive: 3, powerful: 2, fast: 1 } },
@@ -333,7 +325,6 @@
         { name: "伊藤美诚", img: "yitengmeicheng.jpg", traits: ["怪球手", "生胶快攻", "变化莫测"], desc: "你是特立独行的怪球手，生胶弹击和神秘发球让对手难以适应。你永远在求变，永远让对手猜不透。", match: { fast: 3, smart: 2, tactical: 2, aggressive: 1 } }
     ];
 
-    // 全局变量
     let currentIdx = 0;
     let userScores = {
         aggressive:0, fast:0, powerful:0, technical:0,
@@ -341,7 +332,6 @@
     };
     let selectedOptionIndex = null;
 
-    // DOM 元素
     const introScreen = document.getElementById('intro-screen');
     const quizScreen = document.getElementById('quiz-screen');
     const resultScreen = document.getElementById('result-screen');
@@ -353,7 +343,6 @@
     const qCounter = document.getElementById('q-counter');
     const progressBar = document.getElementById('quiz-progress');
 
-    // 开始测试
     function startQuiz() {
         userScores = { aggressive:0, fast:0, powerful:0, technical:0, smart:0, patient:0, defensive:0, tactical:0, neutral:0 };
         currentIdx = 0;
@@ -437,7 +426,6 @@
             }
         }
 
-        // 匹配度百分比
         let totalUserScore = 0;
         for (let [trait, score] of Object.entries(userScores)) {
             if (trait !== 'neutral') totalUserScore += score;
@@ -472,7 +460,6 @@
         introScreen.classList.add('active');
     }
 
-    // 分享功能
     function shareResult() {
         const playerName = document.getElementById('result-name').innerText;
         const traitSpans = document.querySelectorAll('#result-traits .pill');
@@ -486,7 +473,6 @@
         navigator.clipboard.writeText(shareText).then(() => alert('✅ 结果已复制，快去分享吧！')).catch(() => alert('❌ 复制失败，您可以手动复制。'));
     }
 
-    // ========== 运动员库模态框功能 ==========
     const modalOverlay = document.getElementById('modalOverlay');
     const aboutLink = document.getElementById('aboutLink');
     const closeModalBtn = document.getElementById('closeModalBtn');
@@ -520,7 +506,6 @@
     function closeModal() {
         if (modalOverlay) modalOverlay.style.display = 'none';
     }
-    // 点击背景关闭
     if (modalOverlay) {
         modalOverlay.addEventListener('click', (e) => {
             if (e.target === modalOverlay) closeModal();
@@ -532,7 +517,6 @@
     });
     if (closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
 
-    // 绑定事件
     startBtn.addEventListener('click', startQuiz);
     nextBtn.addEventListener('click', saveAndNext);
     restartBtn.addEventListener('click', restartTest);
