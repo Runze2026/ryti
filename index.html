@@ -234,6 +234,31 @@
         });
 
         document.getElementById('res-name').textContent = bestMatch.name;
+        document.getElementById('res-desc').textContent = bestMatch.desc;
+        
+        const traitsWrap = document.getElementById('res-traits');
+        traitsWrap.innerHTML = bestMatch.traits.map(t => `<span class="trait-pill">${t}</span>`).join('');
+
+        const photoContainer = document.getElementById('res-photo');
+        photoContainer.innerHTML = ''; 
+        
+        const imgElement = document.createElement('img');
+        imgElement.src = bestMatch.img;
+        imgElement.style.width = '100%';
+        imgElement.style.height = '100%';
+        imgElement.style.objectFit = 'cover';
+        
+        imgElement.onerror = function() {
+            photoContainer.innerHTML = '🏓';
+        };
+
+        photoContainer.appendChild(imgElement);
+
+        document.getElementById('screen-quiz').classList.remove('active');
+        document.getElementById('screen-result').classList.add('active');
+    }
+
+        document.getElementById('res-name').textContent = bestMatch.name;
         const imgTag = document.getElementById('res-img');
         imgTag.src = bestMatch.img; 
         imgTag.style.display = 'block';
