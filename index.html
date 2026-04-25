@@ -43,7 +43,6 @@
         .pill { background: var(--green-pale); padding: 5px 14px; border-radius: 40px; font-size: 12px; font-weight: 500; color: var(--green); }
         .desc-text { text-align: justify; line-height: 1.7; color: var(--ink-muted); font-size: 15px; margin-top: 8px; }
         .footer-note { text-align: center; font-size: 11px; margin-top: 40px; color: #bbb; }
-        /* 模态框额外样式 */
         #modalOverlay {
             display: none;
             position: fixed;
@@ -98,6 +97,11 @@
             font-size: 12px;
             color: #666;
         }
+        .counter-container {
+            text-align: center;
+            margin-top: 16px;
+            margin-bottom: 8px;
+        }
     </style>
 </head>
 <body>
@@ -147,6 +151,12 @@
         <a href="#" id="aboutLink" style="color: var(--green); text-decoration: underline; cursor: pointer; font-size: 13px;">📖 关于RYTI · 运动员库(可以点击看看哦)</a>
     </div>
     <div class="footer-note">RYTI ARCHIVE · 基于竞技人格算法</div>
+
+    <div class="counter-container">
+        <a href="https://hits.seeyoufarm.com" target="_blank">
+            <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://你的网站域名" alt="访问计数"/>
+        </a>
+    </div>
 </main>
 
 <div id="modalOverlay">
