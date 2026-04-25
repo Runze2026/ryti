@@ -3,271 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>RYTI · 找到你的乒乓球灵魂搭档</title>
+    <title>RYTI · 找到你的乒乓球灵魂搭档 (20题完整版)</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --green: #1a6b4a;
-            --green-light: #2d9e6e;
-            --green-pale: #e8f5ee;
-            --ink: #1a1a1a;
-            --ink-muted: #555;
-            --surface: #fafaf8;
-            --white: #ffffff;
-            --border: #e0e0d8;
-            --radius: 24px;
-            --shadow-sm: 0 8px 20px rgba(0,0,0,0.02), 0 2px 4px rgba(0,0,0,0.03);
-        }
-
-        body {
-            font-family: 'Noto Sans SC', sans-serif;
-            background: var(--surface);
-            color: var(--ink);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        header {
-            width: 100%;
-            padding: 20px 24px;
-            text-align: center;
-            border-bottom: 1px solid var(--border);
-            background: var(--white);
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-
-        .logo {
-            font-family: 'Noto Serif SC', serif;
-            font-weight: 900;
-            font-size: 28px;
-            letter-spacing: 2px;
-            color: var(--green);
-        }
-
-        main {
-            width: 100%;
-            max-width: 560px;
-            padding: 24px 20px 40px;
-            flex: 1;
-        }
-
-        .screen {
-            display: none;
-            animation: fadeUp 0.4s ease;
-        }
-        .screen.active {
-            display: block;
-        }
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(12px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .progress-container {
-            width: 100%;
-            height: 5px;
-            background: var(--border);
-            border-radius: 10px;
-            margin-bottom: 32px;
-            overflow: hidden;
-        }
-        .progress-bar {
-            height: 100%;
-            background: var(--green);
-            width: 0%;
-            transition: width 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-        }
-
-        .card {
-            background: var(--white);
-            border-radius: var(--radius);
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow-sm);
-            padding: 28px 24px;
-        }
-
-        .intro-hero {
-            text-align: center;
-        }
-        .intro-title {
-            font-family: 'Noto Serif SC', serif;
-            font-size: 38px;
-            line-height: 1.2;
-            margin-bottom: 16px;
-        }
-        .intro-title span {
-            color: var(--green);
-            border-bottom: 3px solid var(--green-pale);
-        }
-        .badge-grid {
-            background: var(--green-pale);
-            border-radius: 20px;
-            padding: 16px;
-            margin: 28px 0;
-            text-align: left;
-            font-size: 14px;
-            color: var(--green);
-            font-weight: 500;
-        }
-        .btn-main {
-            width: 100%;
-            background: var(--green);
-            color: white;
-            border: none;
-            padding: 16px;
-            font-size: 16px;
-            font-weight: 600;
-            border-radius: 60px;
-            cursor: pointer;
-            transition: all 0.2s;
-            box-shadow: 0 4px 10px rgba(26,107,74,0.25);
-        }
-        .btn-main:hover {
-            background: var(--green-light);
-            transform: translateY(-1px);
-        }
-        .btn-main:active {
-            transform: scale(0.97);
-        }
-
-        .q-header {
-            display: flex;
-            justify-content: space-between;
-            font-size: 13px;
-            color: var(--green);
-            font-weight: 500;
-            letter-spacing: 1px;
-            margin-bottom: 12px;
-        }
-        .question-text {
-            font-family: 'Noto Serif SC', serif;
-            font-size: 22px;
-            font-weight: 700;
-            line-height: 1.4;
-            margin-bottom: 28px;
-        }
-        .option-btn {
-            background: white;
-            border: 1.5px solid var(--border);
-            border-radius: 18px;
-            padding: 14px 18px;
-            margin-bottom: 12px;
-            cursor: pointer;
-            transition: 0.2s;
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            font-size: 15px;
-            line-height: 1.4;
-        }
-        .option-prefix {
-            font-weight: 700;
-            background: #f2f2ef;
-            width: 28px;
-            height: 28px;
-            border-radius: 30px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            color: var(--ink-muted);
-        }
-        .option-btn.selected {
-            border-color: var(--green);
-            background: var(--green-pale);
-        }
-        .option-btn.selected .option-prefix {
-            background: var(--green);
-            color: white;
-        }
-        .option-text {
-            flex: 1;
-        }
-        .btn-next {
-            margin-top: 24px;
-            background: #ccc;
-            box-shadow: none;
-            opacity: 0.5;
-            pointer-events: none;
-        }
-        .btn-next.active {
-            background: var(--green);
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .result-card {
-            text-align: center;
-        }
-        .avatar {
-            width: 130px;
-            height: 130px;
-            background: var(--green-pale);
-            border-radius: 50%;
-            margin: 0 auto 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 58px;
-            overflow: hidden;
-            border: 4px solid white;
-            box-shadow: 0 12px 24px rgba(0,0,0,0.08);
-        }
-        .avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .match-label {
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--green);
-            letter-spacing: 2px;
-            margin-bottom: 8px;
-        }
-        .player-name {
-            font-family: 'Noto Serif SC', serif;
-            font-size: 36px;
-            margin: 4px 0 12px;
-        }
-        .trait-pills {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 8px;
-            margin: 20px 0;
-        }
-        .pill {
-            background: var(--green-pale);
-            padding: 5px 14px;
-            border-radius: 40px;
-            font-size: 12px;
-            font-weight: 500;
-            color: var(--green);
-        }
-        .desc-text {
-            text-align: justify;
-            line-height: 1.7;
-            color: var(--ink-muted);
-            font-size: 15px;
-            margin-top: 8px;
-        }
-        .footer-note {
-            text-align: center;
-            font-size: 11px;
-            margin-top: 40px;
-            color: #bbb;
-        }
+        /* 样式与你之前的完全一致，为节省篇幅在此省略，但实际请保留全部原有style */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --green: #1a6b4a; --green-light: #2d9e6e; --green-pale: #e8f5ee; --ink: #1a1a1a; --ink-muted: #555; --surface: #fafaf8; --white: #ffffff; --border: #e0e0d8; --radius: 24px; --shadow-sm: 0 8px 20px rgba(0,0,0,0.02), 0 2px 4px rgba(0,0,0,0.03); }
+        body { font-family: 'Noto Sans SC', sans-serif; background: var(--surface); color: var(--ink); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+        header { width: 100%; padding: 20px 24px; text-align: center; border-bottom: 1px solid var(--border); background: var(--white); position: sticky; top: 0; z-index: 10; }
+        .logo { font-family: 'Noto Serif SC', serif; font-weight: 900; font-size: 28px; letter-spacing: 2px; color: var(--green); }
+        main { width: 100%; max-width: 560px; padding: 24px 20px 40px; flex: 1; }
+        .screen { display: none; animation: fadeUp 0.4s ease; }
+        .screen.active { display: block; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+        .progress-container { width: 100%; height: 5px; background: var(--border); border-radius: 10px; margin-bottom: 32px; overflow: hidden; }
+        .progress-bar { height: 100%; background: var(--green); width: 0%; transition: width 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1); }
+        .card { background: var(--white); border-radius: var(--radius); border: 1px solid var(--border); box-shadow: var(--shadow-sm); padding: 28px 24px; }
+        .intro-hero { text-align: center; }
+        .intro-title { font-family: 'Noto Serif SC', serif; font-size: 38px; line-height: 1.2; margin-bottom: 16px; }
+        .intro-title span { color: var(--green); border-bottom: 3px solid var(--green-pale); }
+        .badge-grid { background: var(--green-pale); border-radius: 20px; padding: 16px; margin: 28px 0; text-align: left; font-size: 14px; color: var(--green); font-weight: 500; }
+        .btn-main { width: 100%; background: var(--green); color: white; border: none; padding: 16px; font-size: 16px; font-weight: 600; border-radius: 60px; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 10px rgba(26,107,74,0.25); }
+        .btn-main:hover { background: var(--green-light); transform: translateY(-1px); }
+        .btn-main:active { transform: scale(0.97); }
+        .q-header { display: flex; justify-content: space-between; font-size: 13px; color: var(--green); font-weight: 500; letter-spacing: 1px; margin-bottom: 12px; }
+        .question-text { font-family: 'Noto Serif SC', serif; font-size: 22px; font-weight: 700; line-height: 1.4; margin-bottom: 28px; }
+        .option-btn { background: white; border: 1.5px solid var(--border); border-radius: 18px; padding: 14px 18px; margin-bottom: 12px; cursor: pointer; transition: 0.2s; display: flex; align-items: flex-start; gap: 12px; font-size: 15px; line-height: 1.4; }
+        .option-prefix { font-weight: 700; background: #f2f2ef; width: 28px; height: 28px; border-radius: 30px; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--ink-muted); }
+        .option-btn.selected { border-color: var(--green); background: var(--green-pale); }
+        .option-btn.selected .option-prefix { background: var(--green); color: white; }
+        .option-text { flex: 1; }
+        .btn-next { margin-top: 24px; background: #ccc; box-shadow: none; opacity: 0.5; pointer-events: none; }
+        .btn-next.active { background: var(--green); opacity: 1; pointer-events: auto; }
+        .result-card { text-align: center; }
+        .avatar { width: 130px; height: 130px; background: var(--green-pale); border-radius: 50%; margin: 0 auto 18px; display: flex; align-items: center; justify-content: center; font-size: 58px; overflow: hidden; border: 4px solid white; box-shadow: 0 12px 24px rgba(0,0,0,0.08); }
+        .avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .match-label { font-size: 12px; font-weight: 600; color: var(--green); letter-spacing: 2px; margin-bottom: 8px; }
+        .player-name { font-family: 'Noto Serif SC', serif; font-size: 36px; margin: 4px 0 12px; }
+        .trait-pills { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 20px 0; }
+        .pill { background: var(--green-pale); padding: 5px 14px; border-radius: 40px; font-size: 12px; font-weight: 500; color: var(--green); }
+        .desc-text { text-align: justify; line-height: 1.7; color: var(--ink-muted); font-size: 15px; margin-top: 8px; }
+        .footer-note { text-align: center; font-size: 11px; margin-top: 40px; color: #bbb; }
     </style>
 </head>
 <body>
@@ -278,7 +54,7 @@
     <div id="intro-screen" class="screen active">
         <div class="intro-hero">
             <h1 class="intro-title">测出你的<br><span>乒乓灵魂人格</span></h1>
-            <p style="color:var(--ink-muted); margin-bottom: 12px;">🎖️ 基于5项竞技维度·匹配你的大满贯基因</p>
+            <p style="color:var(--ink-muted); margin-bottom: 12px;">🎖️ 20维深度测评 · 匹配你的大满贯基因</p>
             <div class="badge-grid">
                 🏓 8+ 传奇运动员数据库<br>
                 ⚡  A/B/C/D/E 五选一 · 第5项为「以上都不存在」<br>
@@ -291,7 +67,7 @@
     <div id="quiz-screen" class="screen">
         <div class="progress-container"><div class="progress-bar" id="quiz-progress"></div></div>
         <div class="card" style="padding: 24px 20px;">
-            <div class="q-header"><span id="q-counter">问题 1 / 5</span><span id="q-dimension-hint">⚡ 选择最像你的</span></div>
+            <div class="q-header"><span id="q-counter">问题 1 / 20</span><span>⚡ 选择最像你的</span></div>
             <div class="question-text" id="question-text"></div>
             <div id="options-container"></div>
             <button class="btn-main btn-next" id="nextBtn">确认选择 · 下一题</button>
@@ -312,6 +88,7 @@
 </main>
 
 <script>
+    // 20道题目，每道5选项，E选项均为“以上都不存在”
     const QUESTIONS = [
         { text: "关键分落后时，你通常如何应对？", options: [
             { text: "相信自己的基本功，一分一分耐心追", tags: { technical: 2, patient: 2 } },
@@ -347,6 +124,111 @@
             { text: "精密计算般的战术头脑", tags: { smart: 3, tactical: 2 } },
             { text: "闪电般的极限速度", tags: { fast: 3, aggressive: 1 } },
             { text: "以上都不存在，快乐乒乓最重要", tags: { neutral: 1 } }
+        ]},
+        { text: "比赛前你通常会做什么来准备？", options: [
+            { text: "仔细研究对手录像，制定战术", tags: { tactical: 2, smart: 1 } },
+            { text: "一个人安静热身，专注自己", tags: { patient: 1, technical: 1 } },
+            { text: "听动感音乐，调动兴奋度", tags: { aggressive: 1, powerful: 1 } },
+            { text: "和队友有说有笑，放松心态", tags: { neutral: 2 } },
+            { text: "以上都不存在，随缘", tags: { neutral: 1 } }
+        ]},
+        { text: "当连续失误时，你第一时间会？", options: [
+            { text: "叫暂停，深呼吸调整节奏", tags: { patient: 2, tactical: 1 } },
+            { text: "更用力地击球，试图找回手感", tags: { aggressive: 2, powerful: 1 } },
+            { text: "改变发球或接发球策略", tags: { smart: 2, tactical: 2 } },
+            { text: "加快节奏，以减少思考时间", tags: { fast: 2, aggressive: 1 } },
+            { text: "以上都不存在，继续原样", tags: { neutral: 1 } }
+        ]},
+        { text: "你喜欢哪种风格的队友？", options: [
+            { text: "稳定可靠的防守型", tags: { patient: 1, defensive: 1 } },
+            { text: "激情四射的进攻型", tags: { aggressive: 2, powerful: 1 } },
+            { text: "机智多变的战术型", tags: { smart: 2, tactical: 1 } },
+            { text: "快速灵动的速度型", tags: { fast: 2 } },
+            { text: "以上都不存在，合得来就行", tags: { neutral: 1 } }
+        ]},
+        { text: "对于发球，你更倾向于？", options: [
+            { text: "旋转变化多端的发球", tags: { technical: 2, smart: 1 } },
+            { text: "直接发球抢攻的套路", tags: { aggressive: 2, tactical: 1 } },
+            { text: "超快速度的急长发球", tags: { fast: 2 } },
+            { text: "稳定不出台的短球", tags: { patient: 1, defensive: 1 } },
+            { text: "以上都不存在，随便发", tags: { neutral: 1 } }
+        ]},
+        { text: "面对削球手，你的策略是？", options: [
+            { text: "耐心拉弧圈，寻找机会", tags: { patient: 2, technical: 2 } },
+            { text: "暴力扣杀，一击制胜", tags: { aggressive: 2, powerful: 2 } },
+            { text: "左右调动，消耗对手", tags: { tactical: 2, smart: 1 } },
+            { text: "放短球结合长球", tags: { smart: 2, technical: 1 } },
+            { text: "以上都不存在，不擅长打削球", tags: { neutral: 1 } }
+        ]},
+        { text: "你对自己反手技术的评价是？", options: [
+            { text: "稳定相持，落点精准", tags: { technical: 2, patient: 1 } },
+            { text: "暴力反撕，一板过", tags: { aggressive: 2, powerful: 2 } },
+            { text: "防守反击，借力变线", tags: { defensive: 2, smart: 1 } },
+            { text: "速度极快，连续压迫", tags: { fast: 2, aggressive: 1 } },
+            { text: "以上都不存在，反手是短板", tags: { neutral: 1 } }
+        ]},
+        { text: "比赛中你更喜欢哪种战术？", options: [
+            { text: "压中路调两角", tags: { tactical: 2, patient: 1 } },
+            { text: "发球抢攻，前三板解决", tags: { aggressive: 2, smart: 1 } },
+            { text: "长球相持，拼实力", tags: { powerful: 2, technical: 1 } },
+            { text: "快撕快带，打速度差", tags: { fast: 2 } },
+            { text: "以上都不存在，看临场感觉", tags: { neutral: 1 } }
+        ]},
+        { text: "对于体能训练，你的态度？", options: [
+            { text: "非常重视，每周固定训练", tags: { powerful: 2, fast: 1 } },
+            { text: "一般，更爱练技术", tags: { technical: 2, neutral: 1 } },
+            { text: "不喜欢，但会做必要的", tags: { patient: 1 } },
+            { text: "从不专门练体能", tags: { neutral: 2 } },
+            { text: "以上都不存在，靠比赛保持", tags: { neutral: 1 } }
+        ]},
+        { text: "你如何处理裁判的争议判罚？", options: [
+            { text: "冷静交涉，尊重裁判", tags: { patient: 2, technical: 1 } },
+            { text: "情绪激动，但会克制", tags: { aggressive: 1, neutral: 1 } },
+            { text: "战略性地与裁判沟通", tags: { smart: 2, tactical: 1 } },
+            { text: "完全不关心，专注下一分", tags: { patient: 2, neutral: 1 } },
+            { text: "以上都不存在，会发怒", tags: { aggressive: 1 } }
+        ]},
+        { text: "你更倾向于哪种握拍方式？", options: [
+            { text: "横拍，两面均衡", tags: { technical: 2, patient: 1 } },
+            { text: "直拍，前三板细腻", tags: { smart: 2, aggressive: 1 } },
+            { text: "横拍，但反手突出", tags: { powerful: 1, fast: 1 } },
+            { text: "没有特别偏好", tags: { neutral: 2 } },
+            { text: "以上都不存在，我就是随便打", tags: { neutral: 1 } }
+        ]},
+        { text: "如果你要练习一项新技术，你会？", options: [
+            { text: "分解动作，反复练习", tags: { technical: 2, patient: 2 } },
+            { text: "直接实战中使用，边打边学", tags: { aggressive: 1, neutral: 1 } },
+            { text: "看视频模仿，再调整", tags: { smart: 2 } },
+            { text: "找教练专门指导", tags: { patient: 1, technical: 1 } },
+            { text: "以上都不存在，不练新技术", tags: { neutral: 2 } }
+        ]},
+        { text: "你认为乒乓球比赛中最重要的是？", options: [
+            { text: "技术全面性", tags: { technical: 3 } },
+            { text: "心理素质", tags: { patient: 3, defensive: 1 } },
+            { text: "战术执行力", tags: { tactical: 3, smart: 1 } },
+            { text: "身体爆发力", tags: { powerful: 3, fast: 1 } },
+            { text: "以上都不存在，运气最重要", tags: { neutral: 2 } }
+        ]},
+        { text: "你更享受哪种比赛过程？", options: [
+            { text: "激烈对拉，相持得分", tags: { technical: 2, powerful: 1 } },
+            { text: "速战速决，干净利落", tags: { aggressive: 2, fast: 2 } },
+            { text: "斗智斗勇，变化多端", tags: { smart: 3, tactical: 2 } },
+            { text: "滴水不漏，防守致胜", tags: { defensive: 3, patient: 2 } },
+            { text: "以上都不存在，赢球就行", tags: { neutral: 1 } }
+        ]},
+        { text: "对你来说，乒乓球更像什么？", options: [
+            { text: "一项精密的技术活", tags: { technical: 2 } },
+            { text: "一场心理博弈", tags: { smart: 2, tactical: 1 } },
+            { text: "一种力量释放", tags: { powerful: 2, aggressive: 1 } },
+            { text: "一种速度与反应的挑战", tags: { fast: 2 } },
+            { text: "以上都不存在，就是娱乐", tags: { neutral: 2 } }
+        ]},
+        { text: "你最喜欢的乒乓球明星特质是？", options: [
+            { text: "马龙的全面与稳定", tags: { technical: 2, patient: 1 } },
+            { text: "张继科的狠劲与血性", tags: { aggressive: 3, powerful: 1 } },
+            { text: "许昕的创造力与手感", tags: { smart: 2, tactical: 2 } },
+            { text: "樊振东的力量与质量", tags: { powerful: 3, aggressive: 1 } },
+            { text: "以上都不存在，我不追星", tags: { neutral: 1 } }
         ]}
     ];
 
@@ -424,7 +306,7 @@
     }
 
     function updateProgress() {
-        const percent = ((currentIdx) / QUESTIONS.length) * 100;
+        const percent = (currentIdx / QUESTIONS.length) * 100;
         progressBar.style.width = `${percent}%`;
         qCounter.textContent = `问题 ${currentIdx+1} / ${QUESTIONS.length}`;
     }
@@ -490,7 +372,6 @@
     startBtn.addEventListener('click', startQuiz);
     nextBtn.addEventListener('click', saveAndNext);
     restartBtn.addEventListener('click', restartTest);
-
 </script>
 </body>
 </html>
