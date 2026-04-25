@@ -361,11 +361,23 @@
             }
         }
 
-        let totalUserScore = 0;
-        for (let [trait, score] of Object.entries(userScores)) {
-            if (trait !== 'neutral') totalUserScore += score;
+        const dimensions = ['aggressive', 'fast', 'powerful', 'technical', 'smart', 'patient', 'defensive', 'tactical'];
+        function cosineSimilarity(userVec, playerVec) {
+            let dot = 0, normU = 0, normP = 0;
+            for (let d of dimensions) {
+                let u = userVec[d] || 0;
+                let p = playerVec[d] || 0;
+                dot += u * p;
+                normU += u * u;
+                normP += p * p;
+            }
+            if (normU === 0 || normP === 0) return 0;
+            return dot / (Math.sqrt(normU) * Math.sqrt(normP));
         }
-        let percent = totalUserScore === 0 ? 50 : Math.min(99, Math.floor((highestScore / totalUserScore) * 100));
+        let bestSim = cosineSimilarity(userScores, bestPlayer.match);
+        let percent = Math.floor(bestSim * 100);
+        if (percent > 99) percent = 99;
+        if (percent < 0) percent = 0;
         const percentDiv = document.getElementById('match-percent');
         if (percentDiv) percentDiv.innerText = `🔥 匹配度 ${percent}%`;
 
