@@ -231,15 +231,23 @@
     ];
 
     const PLAYERS = [
-        { name: "马龙", img: "malong.png.jpg", traits: ["六边形战士", "技术全能", "定海神针"], desc: "你是乒乓球的绝对王者，技术库没有任何短板。既能在远台对拉，也能台内细腻控制，是所有人眼中的完美模板。", match: { technical: 3, patient: 2, tactical: 1, smart: 1 } },
-        { name: "张继科", img: "zhangjike.png.jpg", traits: ["藏獒血性", "反手霸王", "大场面先生"], desc: "你是天生的斗士，骨子里流淌着桀骜。关键时刻的反手拧拉和那股嗜血杀气，总能让对手未战先怯。", match: { aggressive: 3, powerful: 2, fast: 1 } },
-        { name: "樊振东", img: "fanzhendong.png.jpg", traits: ["暴力熊猫", "正手重炮", "新一代魔王"], desc: "你的球风朴实但暴力，每一板都势大力沉。喜欢用绝对质量硬碰硬，在相持中让对手感受到窒息般的压迫。", match: { powerful: 3, aggressive: 2, technical: 1 } },
-        { name: "孙颖莎", img: "sunyingsha.png.jpg", traits: ["灵动风暴", "正反手转换", "大心脏"], desc: "你是新生代最快衔接的代表，球路清晰且杀伤力十足。头脑非常聪明，能瞬间提速打穿任何防线。", match: { fast: 3, smart: 2, technical: 1 } },
-        { name: "张怡宁", img: "zhangyining.png.jpg", traits: ["冷面魔王", "无解防守", "泰山崩于前"], desc: "你是无敌的化身，心理素质已臻化境。不需要华丽进攻，只用密不透风的防守和稳定，就能让对手绝望崩溃。", match: { patient: 4, defensive: 3, technical: 1 } },
-        { name: "许昕", img: "", traits: ["人民艺术家", "远台飘逸", "黄金左手"], desc: "你是球场上的神笔马良，拥有全世界最华丽的远台反拉和令人惊叹的手感。越是绝境，越能创造出神仙球。", match: { smart: 2, patient: 2, tactical: 2, fast: 1 } },
-        { name: "莫雷加德", img: "moregard.png.jpg", traits: ["鬼才发明家", "六边形变种", " unpredictable"], desc: "你拒绝平庸，打球充满灵性与诡异。各种切、抹、侧砍都信手拈来，让对手永远猜不透下一板。", match: { smart: 3, tactical: 3, technical: -1 } },
-        { name: "王曼昱", img: "", traits: ["女子技术男性化", "反手暴撕", "冷面杀手"], desc: "你拥有极高单板质量和男性化的对抗能力，反手体系尤其凶悍。沉默之下蕴含着摧毁一切的爆发力。", match: { powerful: 2, aggressive: 2, technical: 2, fast: 1 } }
-    ];
+    { name: "马龙", img: "malong.png.jpg", traits: ["六边形战士", "技术全能", "定海神针"], desc: "你是乒乓球的绝对王者，技术库没有任何短板。既能在远台对拉，也能台内细腻控制，是所有人眼中的完美模板。", match: { technical: 3, patient: 2, tactical: 1, smart: 1 } },
+    { name: "张继科", img: "zhangjike.png.jpg", traits: ["藏獒血性", "反手霸王", "大场面先生"], desc: "你是天生的斗士，骨子里流淌着桀骜。关键时刻的反手拧拉和那股嗜血杀气，总能让对手未战先怯。", match: { aggressive: 3, powerful: 2, fast: 1 } },
+    { name: "樊振东", img: "fanzhendong.png.jpg", traits: ["暴力熊猫", "正手重炮", "新一代魔王"], desc: "你的球风朴实但暴力，每一板都势大力沉。喜欢用绝对质量硬碰硬，在相持中让对手感受到窒息般的压迫。", match: { powerful: 3, aggressive: 2, technical: 1 } },
+    { name: "孙颖莎", img: "sunyingsha.png.jpg", traits: ["灵动风暴", "正反手转换", "大心脏"], desc: "你是新生代最快衔接的代表，球路清晰且杀伤力十足。头脑非常聪明，能瞬间提速打穿任何防线。", match: { fast: 3, smart: 2, technical: 1 } },
+    { name: "张怡宁", img: "zhangyining.png.jpg", traits: ["冷面魔王", "无解防守", "泰山崩于前"], desc: "你是无敌的化身，心理素质已臻化境。不需要华丽进攻，只用密不透风的防守和稳定，就能让对手绝望崩溃。", match: { patient: 4, defensive: 3, technical: 1 } },
+    { name: "许昕", img: "", traits: ["人民艺术家", "远台飘逸", "黄金左手"], desc: "你是球场上的神笔马良，拥有全世界最华丽的远台反拉和令人惊叹的手感。越是绝境，越能创造出神仙球。", match: { smart: 2, patient: 2, tactical: 2, fast: 1 } },
+    { name: "莫雷加德", img: "moregard.png.jpg", traits: ["鬼才发明家", "六边形变种", " unpredictable"], desc: "你拒绝平庸，打球充满灵性与诡异。各种切、抹、侧砍都信手拈来，让对手永远猜不透下一板。", match: { smart: 3, tactical: 3, technical: -1 } },
+    { name: "王曼昱", img: "", traits: ["女子技术男性化", "反手暴撕", "冷面杀手"], desc: "你拥有极高单板质量和男性化的对抗能力，反手体系尤其凶悍。沉默之下蕴含着摧毁一切的爆发力。", match: { powerful: 2, aggressive: 2, technical: 2, fast: 1 } },
+
+    { name: "王励勤", img: "", traits: ["正手重炮", "远台之王", "三届世锦赛冠军"], desc: "你是力量型选手的极致，正手弧圈势大力沉，远台对拉能力无人能及。你用绝对实力诠释了“大力出奇迹”。", match: { powerful: 3, technical: 2, patient: 1 } },
+    { name: "马琳", img: "", traits: ["直拍大师", "发球多变", "心理战高手"], desc: "你是乒乓球界的魔术师，发球、接发球、台内小球控制出神入化。你总能用巧妙的战术和变化让对手陷入困境。", match: { smart: 3, tactical: 3, aggressive: 1 } },
+    { name: "刘国梁", img: "", traits: ["智多星", "直拍正胶", "大满贯教头"], desc: "你是最强大脑的代表，球路刁钻、战术执行力极强。作为中国乒乓球的传奇，你的智慧和应变能力无人能及。", match: { smart: 3, tactical: 2, fast: 1 } },
+    { name: "孔令辉", img: "", traits: ["乒乓王子", "横拍经典", "技术均衡"], desc: "你是优雅与实力并存的代言人，横拍两面弧圈打法堪称教科书。你的稳定性和技术流畅度是所有选手的榜样。", match: { technical: 3, patient: 2, smart: 1 } },
+    { name: "陈梦", img: "", traits: ["实力派女王", "反手相持", "厚积薄发"], desc: "你是稳如泰山的实力派，反手相持能力世界顶级。你不追求花哨，但每一板都质量极高，是当今女乒的标杆。", match: { technical: 3, patient: 2, powerful: 1 } },
+    { name: "王楚钦", img: "", traits: ["左手暴力", "年轻冲击力", "双打天才"], desc: "你是新生代的暴力美学代表，左手持拍让线路更加刁钻。你的正手杀伤力和比赛激情总能点燃全场。", match: { aggressive: 3, powerful: 2, fast: 2 } },
+    { name: "伊藤美诚", img: "", traits: ["怪球手", "生胶快攻", "变化莫测"], desc: "你是特立独行的怪球手，生胶弹击和神秘发球让对手难以适应。你永远在求变，永远让对手猜不透。", match: { fast: 3, smart: 2, tactical: 2, aggressive: 1 } }
+];
 
     let currentIdx = 0;
     let userScores = {
