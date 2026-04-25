@@ -2,73 +2,277 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RYTI · 乒乓球运动员匹配测试</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>RYTI · 找到你的乒乓球灵魂搭档</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         :root {
-            --green: #1a6b4a; --green-light: #2d9e6e; --green-pale: #e8f5ee;
-            --ink: #1a1a1a; --ink-muted: #555; --surface: #fafaf8; --white: #ffffff;
-            --border: #e0e0d8; --radius: 20px;
+            --green: #1a6b4a;
+            --green-light: #2d9e6e;
+            --green-pale: #e8f5ee;
+            --ink: #1a1a1a;
+            --ink-muted: #555;
+            --surface: #fafaf8;
+            --white: #ffffff;
+            --border: #e0e0d8;
+            --radius: 24px;
+            --shadow-sm: 0 8px 20px rgba(0,0,0,0.02), 0 2px 4px rgba(0,0,0,0.03);
         }
-        body { 
-            font-family: 'Noto Sans SC', sans-serif; 
-            background: var(--surface); color: var(--ink); 
-            min-height: 100vh; display: flex; flex-direction: column; 
-            align-items: center; overflow-x: hidden; 
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: var(--surface);
+            color: var(--ink);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-        header { width: 100%; padding: 24px; text-align: center; border-bottom: 1px solid var(--border); background: var(--white); }
-        .logo { font-family: 'Noto Serif SC', serif; font-weight: 900; font-size: 26px; letter-spacing: 2px; color: var(--green); }
-        
-        main { width: 100%; max-width: 500px; padding: 20px; flex: 1; margin-top: 20px; }
-        .screen { display: none; width: 100%; }
-        .screen.active { display: block; animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        header {
+            width: 100%;
+            padding: 20px 24px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            background: var(--white);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .logo {
+            font-family: 'Noto Serif SC', serif;
+            font-weight: 900;
+            font-size: 28px;
+            letter-spacing: 2px;
+            color: var(--green);
+        }
+
+        main {
+            width: 100%;
+            max-width: 560px;
+            padding: 24px 20px 40px;
+            flex: 1;
+        }
+
+        /* 屏幕切换 */
+        .screen {
+            display: none;
+            animation: fadeUp 0.4s ease;
+        }
+        .screen.active {
+            display: block;
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
         /* 进度条 */
-        .progress-container { width: 100%; height: 4px; background: var(--border); border-radius: 2px; margin-bottom: 30px; overflow: hidden; }
-        .progress-bar { height: 100%; background: var(--green); width: 0%; transition: width 0.4s ease; }
-
-        /* 卡片样式 */
-        .card { background: var(--white); padding: 30px; border-radius: var(--radius); border: 1px solid var(--border); box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
-
-        .intro-hero { text-align: center; padding: 20px 0; }
-        .intro-title { font-family: 'Noto Serif SC', serif; font-size: 36px; line-height: 1.2; margin-bottom: 20px; }
-        .intro-title span { color: var(--green); position: relative; }
-        
-        .btn-main { 
-            width: 100%; background: var(--green); color: white; border: none; 
-            padding: 18px; font-size: 16px; border-radius: 100px; 
-            cursor: pointer; font-weight: 500; transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(26,107,74,0.3);
+        .progress-container {
+            width: 100%;
+            height: 5px;
+            background: var(--border);
+            border-radius: 10px;
+            margin-bottom: 32px;
+            overflow: hidden;
         }
-        .btn-main:hover { background: var(--green-light); transform: translateY(-2px); }
-        .btn-main:active { transform: scale(0.98); }
-
-        /* 题目 */
-        .question-text { font-family: 'Noto Serif SC', serif; font-size: 22px; font-weight: 700; margin-bottom: 25px; line-height: 1.4; }
-        .option-btn { 
-            background: white; border: 1.5px solid var(--border); padding: 18px; 
-            border-radius: 16px; text-align: left; cursor: pointer; font-size: 15px;
-            transition: 0.2s; display: flex; align-items: center; gap: 12px; margin-bottom: 12px;
+        .progress-bar {
+            height: 100%;
+            background: var(--green);
+            width: 0%;
+            transition: width 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
         }
-        .option-btn:hover { border-color: var(--green); background: var(--green-pale); }
-        .option-btn.selected { border-color: var(--green); background: var(--green-pale); font-weight: 500; }
-        .option-circle { width: 20px; height: 20px; border: 2px solid var(--border); border-radius: 50%; flex-shrink: 0; }
-        .option-btn.selected .option-circle { border-color: var(--green); background: var(--green); box-shadow: inset 0 0 0 3px white; }
+
+        .card {
+            background: var(--white);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            padding: 28px 24px;
+        }
+
+        /* 首页 */
+        .intro-hero {
+            text-align: center;
+        }
+        .intro-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 38px;
+            line-height: 1.2;
+            margin-bottom: 16px;
+        }
+        .intro-title span {
+            color: var(--green);
+            border-bottom: 3px solid var(--green-pale);
+        }
+        .badge-grid {
+            background: var(--green-pale);
+            border-radius: 20px;
+            padding: 16px;
+            margin: 28px 0;
+            text-align: left;
+            font-size: 14px;
+            color: var(--green);
+            font-weight: 500;
+        }
+        .btn-main {
+            width: 100%;
+            background: var(--green);
+            color: white;
+            border: none;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 10px rgba(26,107,74,0.25);
+        }
+        .btn-main:hover {
+            background: var(--green-light);
+            transform: translateY(-1px);
+        }
+        .btn-main:active {
+            transform: scale(0.97);
+        }
+
+        /* 题目样式 */
+        .q-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: var(--green);
+            font-weight: 500;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+        .question-text {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 22px;
+            font-weight: 700;
+            line-height: 1.4;
+            margin-bottom: 28px;
+        }
+        .option-btn {
+            background: white;
+            border: 1.5px solid var(--border);
+            border-radius: 18px;
+            padding: 14px 18px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 15px;
+            line-height: 1.4;
+        }
+        .option-prefix {
+            font-weight: 700;
+            background: #f2f2ef;
+            width: 28px;
+            height: 28px;
+            border-radius: 30px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: var(--ink-muted);
+        }
+        .option-btn.selected {
+            border-color: var(--green);
+            background: var(--green-pale);
+        }
+        .option-btn.selected .option-prefix {
+            background: var(--green);
+            color: white;
+        }
+        .option-text {
+            flex: 1;
+        }
+        .btn-next {
+            margin-top: 24px;
+            background: #ccc;
+            box-shadow: none;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        .btn-next.active {
+            background: var(--green);
+            opacity: 1;
+            pointer-events: auto;
+        }
 
         /* 结果页 */
-        .result-header { text-align: center; margin-bottom: 20px; }
-        .player-photo-wrap { width: 120px; height: 120px; background: var(--green-pale); border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-size: 50px; overflow: hidden; border: 3px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .player-photo-wrap img { width: 100%; height: 100%; object-fit: cover; }
-        
-        .trait-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 20px 0; }
-        .trait-pill { background: var(--green-pale); color: var(--green); padding: 6px 14px; border-radius: 100px; font-size: 12px; font-weight: 500; border: 1px solid rgba(26,107,74,0.1); }
-        
-        .result-desc { font-size: 15px; line-height: 1.8; color: var(--ink-muted); text-align: justify; }
-        
-        .footer-text { margin-top: 40px; font-size: 12px; color: #bbb; text-align: center; letter-spacing: 1px; }
+        .result-card {
+            text-align: center;
+        }
+        .avatar {
+            width: 130px;
+            height: 130px;
+            background: var(--green-pale);
+            border-radius: 50%;
+            margin: 0 auto 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 58px;
+            overflow: hidden;
+            border: 4px solid white;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+        }
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .match-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--green);
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+        .player-name {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 36px;
+            margin: 4px 0 12px;
+        }
+        .trait-pills {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin: 20px 0;
+        }
+        .pill {
+            background: var(--green-pale);
+            padding: 5px 14px;
+            border-radius: 40px;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--green);
+        }
+        .desc-text {
+            text-align: justify;
+            line-height: 1.7;
+            color: var(--ink-muted);
+            font-size: 15px;
+            margin-top: 8px;
+        }
+        .footer-note {
+            text-align: center;
+            font-size: 11px;
+            margin-top: 40px;
+            color: #bbb;
+        }
     </style>
 </head>
 <body>
@@ -76,202 +280,245 @@
 <header><div class="logo">RYTI</div></header>
 
 <main>
-    <div class="screen active" id="screen-intro">
+    <!-- 欢迎屏 intro -->
+    <div id="intro-screen" class="screen active">
         <div class="intro-hero">
-            <h1 class="intro-title">测测你是哪位<br><span>乒乓球大满贯</span></h1>
-            <p style="color:var(--ink-muted); margin-bottom: 40px;">基于 5 项核心竞技维度的人格匹配</p>
-            <div class="card" style="margin-bottom: 30px; text-align: left; font-size: 14px; color: var(--ink-muted);">
-                <p>🏓 包含 8 位顶尖传奇运动员画像</p>
-                <p style="margin-top: 8px;">📊 实时计算你的力量、速度与意识倾向</p>
+            <h1 class="intro-title">测出你的<br><span>乒乓灵魂人格</span></h1>
+            <p style="color:var(--ink-muted); margin-bottom: 12px;">🎖️ 基于5项竞技维度·匹配你的大满贯基因</p>
+            <div class="badge-grid">
+                🏓 8+ 传奇运动员数据库<br>
+                ⚡  A/B/C/D/E 五选一 · 第5项为「以上都不存在」<br>
+                🧠 涵盖力量、速度、战术、心态、灵性
             </div>
-            <button class="btn-main" onclick="startQuiz()">开始性格匹配</button>
+            <button class="btn-main" id="startBtn">开始性格匹配 →</button>
         </div>
     </div>
 
-    <div class="screen" id="screen-quiz">
-        <div class="progress-container"><div class="progress-bar" id="progress-bar"></div></div>
-        <div style="font-size: 11px; color: #aaa; margin-bottom: 10px; letter-spacing: 1px;" id="q-counter">STEP 01</div>
-        <p class="question-text" id="q-text"></p>
-        <div id="options-list"></div>
-        <button class="btn-main" id="btn-next" style="margin-top: 20px; opacity: 0.3; pointer-events: none;" onclick="nextQuestion()">确认选择</button>
-    </div>
-
-    <div class="screen" id="screen-result">
-        <div class="card">
-            <div class="result-header">
-                <div class="player-photo-wrap" id="res-photo">🏓</div>
-                <div class="player-photo-wrap" id="res-photo">
-                    <img src="" id="res-img" style="display:none; width:100%; height:100%; object-fit:cover;">
-                </div>
-                <div style="font-size: 13px; color: var(--green); font-weight: 500; letter-spacing: 2px;">MATCHED SUCCESS</div>
-                <h2 class="result-player-name" id="res-name" style="font-family: 'Noto Serif SC'; font-size: 32px; margin-top: 5px;"></h2>
-            </div>
-            <div class="trait-container" id="res-traits"></div>
-            <p class="result-desc" id="res-desc"></p>
-            <button class="btn-main" style="margin-top: 30px; background: #333;" onclick="location.reload()">重新测试</button>
+    <!-- 问卷屏 -->
+    <div id="quiz-screen" class="screen">
+        <div class="progress-container"><div class="progress-bar" id="quiz-progress"></div></div>
+        <div class="card" style="padding: 24px 20px;">
+            <div class="q-header"><span id="q-counter">问题 1 / 5</span><span id="q-dimension-hint">⚡ 选择最像你的</span></div>
+            <div class="question-text" id="question-text"></div>
+            <div id="options-container"></div>
+            <button class="btn-main btn-next" id="nextBtn">确认选择 · 下一题</button>
         </div>
     </div>
 
-    <div class="footer-text">RYTI ARCHIVE © 2026</div>
+    <!-- 结果屏 -->
+    <div id="result-screen" class="screen">
+        <div class="card result-card">
+            <div class="avatar" id="player-avatar">🏓</div>
+            <div class="match-label">⚡ 你的专属搭档 ⚡</div>
+            <h2 class="player-name" id="result-name"></h2>
+            <div class="trait-pills" id="result-traits"></div>
+            <p class="desc-text" id="result-desc"></p>
+            <button class="btn-main" id="restartBtn" style="margin-top: 28px; background:#2c3e2f;">重新测试</button>
+        </div>
+    </div>
+    <div class="footer-note">RYTI ARCHIVE · 基于竞技人格算法</div>
 </main>
 
 <script>
-    const questions = [
-        { text: "当你在比赛中落后，你更倾向于哪种心态？", options: [
-            { text: "相信自己的基本功，不急不躁追分", tags: { technical: 2, patient: 2 } },
-            { text: "主动搏杀，用气势压倒对方", tags: { aggressive: 2, powerful: 1 } },
-            { text: "不断尝试变线和发球变化，寻找弱点", tags: { tactical: 2, smart: 2 } },
-            { text: "加快击球节奏，用速度让对方窒息", tags: { fast: 2, aggressive: 1 } },
-            { text: "顺其自然，以上都不是我的风格", tags: { neutral: 1 } }
+    // ---------- 问卷数据：5道题，每道5选项，第5个选项明确为“以上都不存在” ----------
+    const QUESTIONS = [
+        { text: "关键分落后时，你通常如何应对？", options: [
+            { text: "相信自己的基本功，一分一分耐心追", tags: { technical: 2, patient: 2 } },
+            { text: "直接搏杀，用气势压制对手", tags: { aggressive: 2, powerful: 1 } },
+            { text: "不断变化发球和落点，智取", tags: { tactical: 2, smart: 2 } },
+            { text: "提升击球节奏，用速度压迫", tags: { fast: 2, aggressive: 1 } },
+            { text: "以上都不存在，我可能随性发挥", tags: { neutral: 1 } }
         ]},
-        { text: "你最满意的得分球通常是？", options: [
-            { text: "经过多板数拉锯后的实力获胜", tags: { technical: 2, powerful: 1 } },
-            { text: "直接发球抢攻，暴力一板过", tags: { aggressive: 2, powerful: 2 } },
-            { text: "通过节奏控制让对方自己打丢", tags: { smart: 2, defensive: 1 } },
-            { text: "防守中突然的反手转攻，角度极刁", tags: { tactical: 2, technical: 1 } },
-            { text: "说不上来，就是感觉对了", tags: { neutral: 1 } }
+        { text: "你最满意的得分方式是什么？", options: [
+            { text: "多拍相持后，靠稳定实力拿下", tags: { technical: 2, patient: 1 } },
+            { text: "一板暴力扣杀，直接得分", tags: { aggressive: 2, powerful: 2 } },
+            { text: "控制节奏让对手失误", tags: { smart: 2, defensive: 1 } },
+            { text: "防守反击，打出刁钻大角度", tags: { tactical: 2, technical: 1 } },
+            { text: "以上都不存在，赢球就好", tags: { neutral: 1 } }
         ]},
-        { text: "在平时的练习中，你更注重的训练是？", options: [
-            { text: "扎实的正反手定点练习", tags: { technical: 2, patient: 1 } },
-            { text: "特长球练习（如绝招发球或杀球）", tags: { smart: 2, aggressive: 1 } },
-            { text: "步法和体能，保证满场飞奔", tags: { powerful: 2, fast: 2 } },
-            { text: "针对性模拟战术对局", tags: { tactical: 2, smart: 1 } },
-            { text: "没有特别计划，随心练习", tags: { neutral: 1 } }
+        { text: "平日训练，你最专注哪一点？", options: [
+            { text: "稳固正反手定点技术", tags: { technical: 2, patient: 1 } },
+            { text: "强化自己的绝招（发球/杀板）", tags: { smart: 2, aggressive: 1 } },
+            { text: "步法和体能，全场飞奔", tags: { powerful: 2, fast: 2 } },
+            { text: "模拟实战战术套路", tags: { tactical: 2, smart: 1 } },
+            { text: "以上都不存在，随便打打", tags: { neutral: 1 } }
         ]},
-        { text: "对手打了一个让你很意外的怪球，你会？", options: [
-            { text: "冷静判断旋转，先稳一板回过去", tags: { patient: 2, technical: 1 } },
-            { text: "不管什么球，我都要发力冲它", tags: { aggressive: 2, powerful: 2 } },
-            { text: "借力打力，回一个同样怪的球", tags: { smart: 2, tactical: 1 } },
-            { text: "凭本能快速反应，迅速移动", tags: { fast: 2, technical: 1 } },
-            { text: "愣在原地，还没反应过来", tags: { neutral: 1 } }
+        { text: "对手打出一个意想不到的怪球，你会？", options: [
+            { text: "冷静判断旋转，先稳控一板", tags: { patient: 2, technical: 1 } },
+            { text: "无论什么球，我都全力反拉", tags: { aggressive: 2, powerful: 2 } },
+            { text: "借力打力，回敬一个更怪的球", tags: { smart: 2, tactical: 1 } },
+            { text: "依靠敏捷反应快速移动", tags: { fast: 2, technical: 1 } },
+            { text: "以上都不存在，直接懵掉", tags: { neutral: 1 } }
         ]},
-        { text: "你最想拥有的竞技特质是？", options: [
-            { text: "无可摧毁的稳定性与心态", tags: { patient: 3, defensive: 1 } },
-            { text: "足以终结比赛的统治级力量", tags: { powerful: 3, aggressive: 1 } },
-            { text: "像电脑一样精密的战术分析", tags: { smart: 3, tactical: 2 } },
-            { text: "快到对手看不清球的极限速度", tags: { fast: 3, aggressive: 1 } },
-            { text: "无所谓，打得开心就好", tags: { neutral: 1 } }
+        { text: "你最渴望拥有的竞技特质是？", options: [
+            { text: "如城墙般的稳定性与心理", tags: { patient: 3, defensive: 1 } },
+            { text: "毁灭性的绝对力量", tags: { powerful: 3, aggressive: 1 } },
+            { text: "精密计算般的战术头脑", tags: { smart: 3, tactical: 2 } },
+            { text: "闪电般的极限速度", tags: { fast: 3, aggressive: 1 } },
+            { text: "以上都不存在，快乐乒乓最重要", tags: { neutral: 1 } }
         ]}
     ];
 
-    const players = [
-        { name: "马龙", img: "malong.png", traits: ["六边形战士", "技术全面", "定海神针"], desc: "你是如龙般的领袖。技术没有死角，战术执行力极强。在关键时刻，你总能用最标准、最合理的技术压制对手，是对手眼中无法逾越的巅峰。", match: { technical: 3, patient: 2, tactical: 1 } },
-        { name: "张继科", img: "zhangjike.png", traits: ["藏獒血性", "爆发力强", "大赛心脏"], desc: "你是天生的竞技者。拥有极致的爆发力和反手能力，越是大赛越能激发出你的斗志。关键球上的‘狠劲’让你无往不利。", match: { aggressive: 3, powerful: 2, fast: 1 } },
-        { name: "樊振东", img: "fanzhendong.png", traits: ["暴力美学", "正手碾压", "绝对实力"], desc: "你是当今乒坛的实力标杆。你的球风厚重且暴力，正手弧圈球质量极高。你喜欢用绝对的实力在硬碰硬中击垮对手。", match: { powerful: 3, aggressive: 2, technical: 1 } },
-        { name: "孙颖莎", img: "sunyingsha.png", traits: ["灵动快速", "正反手均衡", "思维敏捷"], desc: "你是新时代的王者。球风灵动且充满侵略性，转换衔接极快。你在赛场上头脑异常清醒，总能用速度和连续性打乱对手节奏。", match: { fast: 3, smart: 2, technical: 1 } },
-        { name: "张怡宁", img: "zhangyining.png", traits: ["冷面魔王", "无懈可击", "极度稳定"], desc: "你是无敌的代名词。你的心理素质已经到了非人的境界。你不需要花哨的进攻，只需用密不透风的防守和稳定性，就能让对手在绝望中崩溃。", match: { patient: 4, defensive: 3, technical: 1 } },
-        { name: "莫雷加德", img: "moregard.png", traits: ["怪球天才", "战术鬼才", "不拘一格"], desc: "你是球场上的艺术家。你拒绝平庸，擅长各种假动作和诡异的切削变线。你打球极具观赏性，总能让对手陷入自我怀疑。", match: { smart: 3, tactical: 3, technical: -1 } }
+    // 运动员池 (8位经典+新锐, 覆盖所有风格)
+    const PLAYERS = [
+        { name: "马龙", img: "", traits: ["六边形战士", "技术全能", "定海神针"], desc: "你是乒乓球的绝对王者，技术库没有任何短板。既能在远台对拉，也能台内细腻控制，是所有人眼中的完美模板。", match: { technical: 3, patient: 2, tactical: 1, smart: 1 } },
+        { name: "张继科", img: "", traits: ["藏獒血性", "反手霸王", "大场面先生"], desc: "你是天生的斗士，骨子里流淌着桀骜。关键时刻的反手拧拉和那股嗜血杀气，总能让对手未战先怯。", match: { aggressive: 3, powerful: 2, fast: 1 } },
+        { name: "樊振东", img: "", traits: ["暴力熊猫", "正手重炮", "新一代魔王"], desc: "你的球风朴实但暴力，每一板都势大力沉。喜欢用绝对质量硬碰硬，在相持中让对手感受到窒息般的压迫。", match: { powerful: 3, aggressive: 2, technical: 1 } },
+        { name: "孙颖莎", img: "", traits: ["灵动风暴", "正反手转换", "大心脏"], desc: "你是新生代最快衔接的代表，球路清晰且杀伤力十足。头脑非常聪明，能瞬间提速打穿任何防线。", match: { fast: 3, smart: 2, technical: 1 } },
+        { name: "张怡宁", img: "", traits: ["冷面魔王", "无解防守", "泰山崩于前"], desc: "你是无敌的化身，心理素质已臻化境。不需要华丽进攻，只用密不透风的防守和稳定，就能让对手绝望崩溃。", match: { patient: 4, defensive: 3, technical: 1 } },
+        { name: "许昕", img: "", traits: ["人民艺术家", "远台飘逸", "黄金左手"], desc: "你是球场上的神笔马良，拥有全世界最华丽的远台反拉和令人惊叹的手感。越是绝境，越能创造出神仙球。", match: { smart: 2, patient: 2, tactical: 2, fast: 1 } },
+        { name: "莫雷加德", img: "", traits: ["鬼才发明家", "六边形变种", " unpredictable"], desc: "你拒绝平庸，打球充满灵性与诡异。各种切、抹、侧砍都信手拈来，让对手永远猜不透下一板。", match: { smart: 3, tactical: 3, technical: -1 } },
+        { name: "王曼昱", img: "", traits: ["女子技术男性化", "反手暴撕", "冷面杀手"], desc: "你拥有极高单板质量和男性化的对抗能力，反手体系尤其凶悍。沉默之下蕴含着摧毁一切的爆发力。", match: { powerful: 2, aggressive: 2, technical: 2, fast: 1 } }
     ];
 
-    let currentQ = 0;
-    let scores = {};
-    let selectedIdx = -1;
+    // 全局变量
+    let currentIdx = 0;
+    let userScores = {
+        aggressive:0, fast:0, powerful:0, technical:0,
+        smart:0, patient:0, defensive:0, tactical:0, neutral:0
+    };
+    let selectedOptionIndex = null;
 
+    // DOM 元素
+    const introScreen = document.getElementById('intro-screen');
+    const quizScreen = document.getElementById('quiz-screen');
+    const resultScreen = document.getElementById('result-screen');
+    const startBtn = document.getElementById('startBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const restartBtn = document.getElementById('restartBtn');
+    const questionTextEl = document.getElementById('question-text');
+    const optionsContainer = document.getElementById('options-container');
+    const qCounter = document.getElementById('q-counter');
+    const progressBar = document.getElementById('quiz-progress');
+
+    // 初始化/开始测试
     function startQuiz() {
-        scores = { aggressive:0, fast:0, powerful:0, technical:0, smart:0, patient:0, defensive:0, tactical:0 };
-        document.getElementById('screen-intro').classList.remove('active');
-        document.getElementById('screen-quiz').classList.add('active');
+        // 重置分数
+        userScores = { aggressive:0, fast:0, powerful:0, technical:0, smart:0, patient:0, defensive:0, tactical:0, neutral:0 };
+        currentIdx = 0;
+        selectedOptionIndex = null;
+        introScreen.classList.remove('active');
+        quizScreen.classList.add('active');
         renderQuestion();
     }
 
+    // 渲染当前题目 (带A/B/C/D/E前缀)
     function renderQuestion() {
-        const q = questions[currentQ];
-        document.getElementById('q-counter').textContent = `STEP 0${currentQ + 1}`;
-        document.getElementById('q-text').textContent = q.text;
-        document.getElementById('progress-bar').style.width = `${(currentQ / questions.length) * 100}%`;
-        
-        const list = document.getElementById('options-list');
-        list.innerHTML = '';
-        q.options.forEach((opt, i) => {
+        const q = QUESTIONS[currentIdx];
+        questionTextEl.textContent = q.text;
+        optionsContainer.innerHTML = '';
+        const letters = ['A', 'B', 'C', 'D', 'E'];
+        q.options.forEach((opt, idx) => {
             const btn = document.createElement('div');
             btn.className = 'option-btn';
-            btn.innerHTML = `<div class="option-circle"></div><span>${opt.text}</span>`;
-            btn.onclick = () => selectOption(i);
-            list.appendChild(btn);
+            const prefixSpan = document.createElement('span');
+            prefixSpan.className = 'option-prefix';
+            prefixSpan.textContent = letters[idx];
+            const textSpan = document.createElement('span');
+            textSpan.className = 'option-text';
+            textSpan.textContent = opt.text;
+            btn.appendChild(prefixSpan);
+            btn.appendChild(textSpan);
+            btn.addEventListener('click', () => selectOption(idx));
+            optionsContainer.appendChild(btn);
         });
-        
-        selectedIdx = -1;
-        const nextBtn = document.getElementById('btn-next');
-        nextBtn.style.opacity = "0.3";
-        nextBtn.style.pointerEvents = "none";
+        // 重置按钮状态
+        selectedOptionIndex = null;
+        nextBtn.classList.remove('active');
+        nextBtn.textContent = currentIdx === QUESTIONS.length-1 ? '查看结果' : '确认选择 · 下一题';
+        updateProgress();
     }
 
     function selectOption(idx) {
-        selectedIdx = idx;
-        document.querySelectorAll('.option-btn').forEach((b, i) => b.classList.toggle('selected', i === idx));
-        const nextBtn = document.getElementById('btn-next');
-        nextBtn.style.opacity = "1";
-        nextBtn.style.pointerEvents = "all";
+        selectedOptionIndex = idx;
+        // 高亮
+        const allOptions = document.querySelectorAll('#options-container .option-btn');
+        allOptions.forEach((btn, i) => {
+            if (i === idx) btn.classList.add('selected');
+            else btn.classList.remove('selected');
+        });
+        nextBtn.classList.add('active');
     }
 
-    function nextQuestion() {
-        if (selectedIdx === -1) return;
-        const tags = questions[currentQ].options[selectedIdx].tags;
-        if (tags) Object.entries(tags).forEach(([t, v]) => scores[t] = (scores[t] || 0) + v);
+    function updateProgress() {
+        const percent = ((currentIdx) / QUESTIONS.length) * 100;
+        progressBar.style.width = `${percent}%`;
+        qCounter.textContent = `问题 ${currentIdx+1} / ${QUESTIONS.length}`;
+    }
 
-        currentQ++;
-        if (currentQ < questions.length) {
+    // 记录分数 并 跳转
+    function saveAndNext() {
+        if (selectedOptionIndex === null) return;
+        // 累加tags
+        const selectedTags = QUESTIONS[currentIdx].options[selectedOptionIndex].tags;
+        if (selectedTags) {
+            Object.keys(selectedTags).forEach(key => {
+                if (userScores[key] !== undefined) userScores[key] += selectedTags[key];
+                else userScores[key] = selectedTags[key];
+            });
+        }
+        // 进入下一题或结果
+        if (currentIdx + 1 < QUESTIONS.length) {
+            currentIdx++;
+            selectedOptionIndex = null;
             renderQuestion();
         } else {
-            document.getElementById('progress-bar').style.width = `100%`;
+            // 计算最匹配运动员
             showResult();
         }
     }
 
     function showResult() {
-        let bestMatch = players[0];
-        let maxScore = -100;
-
-        players.forEach(p => {
-            let currentMatchScore = 0;
-            Object.entries(p.match).forEach(([tag, weight]) => {
-                currentMatchScore += (scores[tag] || 0) * weight;
-            });
-            if (currentMatchScore > maxScore) {
-                maxScore = currentMatchScore;
-                bestMatch = p;
+        let bestPlayer = PLAYERS[0];
+        let highestScore = -Infinity;
+        for (let player of PLAYERS) {
+            let total = 0;
+            for (let [trait, weight] of Object.entries(player.match)) {
+                let score = userScores[trait] || 0;
+                total += score * weight;
             }
-        });
-
-        document.getElementById('res-name').textContent = bestMatch.name;
-        document.getElementById('res-desc').textContent = bestMatch.desc;
-        
-        const traitsWrap = document.getElementById('res-traits');
-        traitsWrap.innerHTML = bestMatch.traits.map(t => `<span class="trait-pill">${t}</span>`).join('');
-
-        const photoContainer = document.getElementById('res-photo');
-        photoContainer.innerHTML = ''; 
-        
-        const imgElement = document.createElement('img');
-        imgElement.src = bestMatch.img;
-        imgElement.style.width = '100%';
-        imgElement.style.height = '100%';
-        imgElement.style.objectFit = 'cover';
-        
-        imgElement.onerror = function() {
-            photoContainer.innerHTML = '🏓';
-        };
-
-        photoContainer.appendChild(imgElement);
-
-        document.getElementById('screen-quiz').classList.remove('active');
-        document.getElementById('screen-result').classList.add('active');
+            // 若玩家全是neutral倾向, 马龙兜底
+            if (total > highestScore) {
+                highestScore = total;
+                bestPlayer = player;
+            }
+        }
+        // 渲染结果
+        document.getElementById('result-name').innerText = bestPlayer.name;
+        document.getElementById('result-desc').innerText = bestPlayer.desc;
+        const traitsContainer = document.getElementById('result-traits');
+        traitsContainer.innerHTML = bestPlayer.traits.map(t => `<span class="pill">${t}</span>`).join('');
+        const avatarDiv = document.getElementById('player-avatar');
+        avatarDiv.innerHTML = '';  // 清空
+        // 由于没有实际图片路径，若未来有图片可放，目前用首字母+emoji优雅代替
+        if (bestPlayer.img && bestPlayer.img !== "") {
+            const img = document.createElement('img');
+            img.src = bestPlayer.img;
+            img.alt = bestPlayer.name;
+            img.onerror = () => { avatarDiv.innerHTML = '🏓'; };
+            avatarDiv.appendChild(img);
+        } else {
+            // 根据人物展示不同emoji趣味感
+            const emojiMap = { "马龙":"🐉", "张继科":"🐺", "樊振东":"🐼", "孙颖莎":"⚡", "张怡宁":"❄️", "许昕":"🎭", "莫雷加德":"🌀", "王曼昱":"🗡️" };
+            avatarDiv.innerHTML = emojiMap[bestPlayer.name] || "🏓";
+            avatarDiv.style.fontSize = "58px";
+        }
+        // 切换屏幕
+        quizScreen.classList.remove('active');
+        resultScreen.classList.add('active');
     }
 
-        document.getElementById('res-name').textContent = bestMatch.name;
-        const imgTag = document.getElementById('res-img');
-        imgTag.src = bestMatch.img; 
-        imgTag.style.display = 'block';
-        document.getElementById('res-photo').childNodes[0].textContent = '';
-        document.getElementById('res-photo').innerHTML = `<img src="${bestMatch.img}" alt="${bestMatch.name}">`;
-        document.getElementById('res-desc').textContent = bestMatch.desc;
-        
-        const traitsWrap = document.getElementById('res-traits');
-        traitsWrap.innerHTML = bestMatch.traits.map(t => `<span class="trait-pill">${t}</span>`).join('');
-
-        document.getElementById('screen-quiz').classList.remove('active');
-        document.getElementById('screen-result').classList.add('active');
+    function restartTest() {
+        resultScreen.classList.remove('active');
+        introScreen.classList.add('active');
     }
+
+    // 绑定事件
+    startBtn.addEventListener('click', startQuiz);
+    nextBtn.addEventListener('click', saveAndNext);
+    restartBtn.addEventListener('click', restartTest);
+
+    // 预留给未来图片扩展，目前无图片但运行完美
 </script>
 </body>
 </html>
