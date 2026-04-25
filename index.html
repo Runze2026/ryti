@@ -393,30 +393,23 @@
         introScreen.classList.add('active');
     }
 
-        // 分享结果功能
     function shareResult() {
-    // 1. 获取运动员名字
     const playerName = document.getElementById('result-name').innerText;
     
-    // 2. 获取特质标签（例如“六边形战士、技术全能”）
     const traitSpans = document.querySelectorAll('#result-traits .pill');
     const traits = Array.from(traitSpans).map(span => span.innerText).join('、');
     
-    // 3. 获取匹配度百分比（如果您已经添加了百分比功能，否则可以忽略）
     let percentText = '';
     const percentDiv = document.getElementById('match-percent');
     if (percentDiv) {
-        percentText = percentDiv.innerText;  // 例如 "🔥 匹配度 87%"
+        percentText = percentDiv.innerText;  
     }
     
-    // 4. 获取简短描述（取前60个字符，避免太长）
     const fullDesc = document.getElementById('result-desc').innerText;
     const shortDesc = fullDesc.length > 60 ? fullDesc.substring(0, 60) + '…' : fullDesc;
     
-    // 5. 组合分享文本
     const shareText = `🏓 我的RYTI乒乓球人格匹配结果：${playerName} ${percentText}\n✨ 特质：${traits}\n💡 ${shortDesc}\n🔗 测试链接：${window.location.href}`;
     
-    // 6. 复制到剪贴板
     navigator.clipboard.writeText(shareText).then(() => {
         alert('✅ 结果已复制，赶快去分享吧！');
     }).catch(() => {
