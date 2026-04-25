@@ -152,12 +152,12 @@
     ];
 
     const players = [
-        { name: "马龙", traits: ["六边形战士", "技术全面", "定海神针"], desc: "你是如龙般的领袖。技术没有死角，战术执行力极强。在关键时刻，你总能用最标准、最合理的技术压制对手，是对手眼中无法逾越的巅峰。", match: { technical: 3, patient: 2, tactical: 1 } },
-        { name: "张继科", traits: ["藏獒血性", "爆发力强", "大赛心脏"], desc: "你是天生的竞技者。拥有极致的爆发力和反手能力，越是大赛越能激发出你的斗志。关键球上的‘狠劲’让你无往不利。", match: { aggressive: 3, powerful: 2, fast: 1 } },
-        { name: "樊振东", traits: ["暴力美学", "正手碾压", "绝对实力"], desc: "你是当今乒坛的实力标杆。你的球风厚重且暴力，正手弧圈球质量极高。你喜欢用绝对的实力在硬碰硬中击垮对手。", match: { powerful: 3, aggressive: 2, technical: 1 } },
-        { name: "孙颖莎", traits: ["灵动快速", "正反手均衡", "思维敏捷"], desc: "你是新时代的王者。球风灵动且充满侵略性，转换衔接极快。你在赛场上头脑异常清醒，总能用速度和连续性打乱对手节奏。", match: { fast: 3, smart: 2, technical: 1 } },
-        { name: "张怡宁", traits: ["冷面魔王", "无懈可击", "极度稳定"], desc: "你是无敌的代名词。你的心理素质已经到了非人的境界。你不需要花哨的进攻，只需用密不透风的防守和稳定性，就能让对手在绝望中崩溃。", match: { patient: 4, defensive: 3, technical: 1 } },
-        { name: "莫雷加德", traits: ["怪球天才", "战术鬼才", "不拘一格"], desc: "你是球场上的艺术家。你拒绝平庸，擅长各种假动作和诡异的切削变线。你打球极具观赏性，总能让对手陷入自我怀疑。", match: { smart: 3, tactical: 3, technical: -1 } }
+        { name: "马龙", img: "malong.png", traits: ["六边形战士", "技术全面", "定海神针"], desc: "你是如龙般的领袖。技术没有死角，战术执行力极强。在关键时刻，你总能用最标准、最合理的技术压制对手，是对手眼中无法逾越的巅峰。", match: { technical: 3, patient: 2, tactical: 1 } },
+        { name: "张继科", img: "zhangjike.png", traits: ["藏獒血性", "爆发力强", "大赛心脏"], desc: "你是天生的竞技者。拥有极致的爆发力和反手能力，越是大赛越能激发出你的斗志。关键球上的‘狠劲’让你无往不利。", match: { aggressive: 3, powerful: 2, fast: 1 } },
+        { name: "樊振东", img: "fanzhendong.png", traits: ["暴力美学", "正手碾压", "绝对实力"], desc: "你是当今乒坛的实力标杆。你的球风厚重且暴力，正手弧圈球质量极高。你喜欢用绝对的实力在硬碰硬中击垮对手。", match: { powerful: 3, aggressive: 2, technical: 1 } },
+        { name: "孙颖莎", img: "sunyingsha.png", traits: ["灵动快速", "正反手均衡", "思维敏捷"], desc: "你是新时代的王者。球风灵动且充满侵略性，转换衔接极快。你在赛场上头脑异常清醒，总能用速度和连续性打乱对手节奏。", match: { fast: 3, smart: 2, technical: 1 } },
+        { name: "张怡宁", img: "zhangyining.png", traits: ["冷面魔王", "无懈可击", "极度稳定"], desc: "你是无敌的代名词。你的心理素质已经到了非人的境界。你不需要花哨的进攻，只需用密不透风的防守和稳定性，就能让对手在绝望中崩溃。", match: { patient: 4, defensive: 3, technical: 1 } },
+        { name: "莫雷加德", img: "moregard.png", traits: ["怪球天才", "战术鬼才", "不拘一格"], desc: "你是球场上的艺术家。你拒绝平庸，擅长各种假动作和诡异的切削变线。你打球极具观赏性，总能让对手陷入自我怀疑。", match: { smart: 3, tactical: 3, technical: -1 } }
     ];
 
     let currentQ = 0;
@@ -231,6 +231,7 @@
         });
 
         document.getElementById('res-name').textContent = bestMatch.name;
+        document.getElementById('res-photo').innerHTML = `<img src="${bestMatch.img}" alt="${bestMatch.name}">`;
         document.getElementById('res-desc').textContent = bestMatch.desc;
         
         const traitsWrap = document.getElementById('res-traits');
