@@ -61,7 +61,6 @@
             flex: 1;
         }
 
-        /* 屏幕切换 */
         .screen {
             display: none;
             animation: fadeUp 0.4s ease;
@@ -74,7 +73,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* 进度条 */
         .progress-container {
             width: 100%;
             height: 5px;
@@ -98,7 +96,6 @@
             padding: 28px 24px;
         }
 
-        /* 首页 */
         .intro-hero {
             text-align: center;
         }
@@ -143,7 +140,6 @@
             transform: scale(0.97);
         }
 
-        /* 题目样式 */
         .q-header {
             display: flex;
             justify-content: space-between;
@@ -210,7 +206,6 @@
             pointer-events: auto;
         }
 
-        /* 结果页 */
         .result-card {
             text-align: center;
         }
@@ -280,7 +275,6 @@
 <header><div class="logo">RYTI</div></header>
 
 <main>
-    <!-- 欢迎屏 intro -->
     <div id="intro-screen" class="screen active">
         <div class="intro-hero">
             <h1 class="intro-title">测出你的<br><span>乒乓灵魂人格</span></h1>
@@ -294,7 +288,6 @@
         </div>
     </div>
 
-    <!-- 问卷屏 -->
     <div id="quiz-screen" class="screen">
         <div class="progress-container"><div class="progress-bar" id="quiz-progress"></div></div>
         <div class="card" style="padding: 24px 20px;">
@@ -305,7 +298,6 @@
         </div>
     </div>
 
-    <!-- 结果屏 -->
     <div id="result-screen" class="screen">
         <div class="card result-card">
             <div class="avatar" id="player-avatar">🏓</div>
@@ -320,7 +312,6 @@
 </main>
 
 <script>
-    // ---------- 问卷数据：5道题，每道5选项，第5个选项明确为“以上都不存在” ----------
     const QUESTIONS = [
         { text: "关键分落后时，你通常如何应对？", options: [
             { text: "相信自己的基本功，一分一分耐心追", tags: { technical: 2, patient: 2 } },
@@ -359,7 +350,6 @@
         ]}
     ];
 
-    // 运动员池 (8位经典+新锐, 覆盖所有风格)
     const PLAYERS = [
         { name: "马龙", img: "", traits: ["六边形战士", "技术全能", "定海神针"], desc: "你是乒乓球的绝对王者，技术库没有任何短板。既能在远台对拉，也能台内细腻控制，是所有人眼中的完美模板。", match: { technical: 3, patient: 2, tactical: 1, smart: 1 } },
         { name: "张继科", img: "", traits: ["藏獒血性", "反手霸王", "大场面先生"], desc: "你是天生的斗士，骨子里流淌着桀骜。关键时刻的反手拧拉和那股嗜血杀气，总能让对手未战先怯。", match: { aggressive: 3, powerful: 2, fast: 1 } },
@@ -371,7 +361,6 @@
         { name: "王曼昱", img: "", traits: ["女子技术男性化", "反手暴撕", "冷面杀手"], desc: "你拥有极高单板质量和男性化的对抗能力，反手体系尤其凶悍。沉默之下蕴含着摧毁一切的爆发力。", match: { powerful: 2, aggressive: 2, technical: 2, fast: 1 } }
     ];
 
-    // 全局变量
     let currentIdx = 0;
     let userScores = {
         aggressive:0, fast:0, powerful:0, technical:0,
@@ -379,7 +368,6 @@
     };
     let selectedOptionIndex = null;
 
-    // DOM 元素
     const introScreen = document.getElementById('intro-screen');
     const quizScreen = document.getElementById('quiz-screen');
     const resultScreen = document.getElementById('result-screen');
@@ -391,9 +379,7 @@
     const qCounter = document.getElementById('q-counter');
     const progressBar = document.getElementById('quiz-progress');
 
-    // 初始化/开始测试
     function startQuiz() {
-        // 重置分数
         userScores = { aggressive:0, fast:0, powerful:0, technical:0, smart:0, patient:0, defensive:0, tactical:0, neutral:0 };
         currentIdx = 0;
         selectedOptionIndex = null;
@@ -402,7 +388,6 @@
         renderQuestion();
     }
 
-    // 渲染当前题目 (带A/B/C/D/E前缀)
     function renderQuestion() {
         const q = QUESTIONS[currentIdx];
         questionTextEl.textContent = q.text;
@@ -422,7 +407,6 @@
             btn.addEventListener('click', () => selectOption(idx));
             optionsContainer.appendChild(btn);
         });
-        // 重置按钮状态
         selectedOptionIndex = null;
         nextBtn.classList.remove('active');
         nextBtn.textContent = currentIdx === QUESTIONS.length-1 ? '查看结果' : '确认选择 · 下一题';
@@ -431,7 +415,6 @@
 
     function selectOption(idx) {
         selectedOptionIndex = idx;
-        // 高亮
         const allOptions = document.querySelectorAll('#options-container .option-btn');
         allOptions.forEach((btn, i) => {
             if (i === idx) btn.classList.add('selected');
@@ -446,10 +429,8 @@
         qCounter.textContent = `问题 ${currentIdx+1} / ${QUESTIONS.length}`;
     }
 
-    // 记录分数 并 跳转
     function saveAndNext() {
         if (selectedOptionIndex === null) return;
-        // 累加tags
         const selectedTags = QUESTIONS[currentIdx].options[selectedOptionIndex].tags;
         if (selectedTags) {
             Object.keys(selectedTags).forEach(key => {
@@ -457,13 +438,11 @@
                 else userScores[key] = selectedTags[key];
             });
         }
-        // 进入下一题或结果
         if (currentIdx + 1 < QUESTIONS.length) {
             currentIdx++;
             selectedOptionIndex = null;
             renderQuestion();
         } else {
-            // 计算最匹配运动员
             showResult();
         }
     }
@@ -477,20 +456,17 @@
                 let score = userScores[trait] || 0;
                 total += score * weight;
             }
-            // 若玩家全是neutral倾向, 马龙兜底
             if (total > highestScore) {
                 highestScore = total;
                 bestPlayer = player;
             }
         }
-        // 渲染结果
         document.getElementById('result-name').innerText = bestPlayer.name;
         document.getElementById('result-desc').innerText = bestPlayer.desc;
         const traitsContainer = document.getElementById('result-traits');
         traitsContainer.innerHTML = bestPlayer.traits.map(t => `<span class="pill">${t}</span>`).join('');
         const avatarDiv = document.getElementById('player-avatar');
-        avatarDiv.innerHTML = '';  // 清空
-        // 由于没有实际图片路径，若未来有图片可放，目前用首字母+emoji优雅代替
+        avatarDiv.innerHTML = '';  
         if (bestPlayer.img && bestPlayer.img !== "") {
             const img = document.createElement('img');
             img.src = bestPlayer.img;
@@ -498,12 +474,10 @@
             img.onerror = () => { avatarDiv.innerHTML = '🏓'; };
             avatarDiv.appendChild(img);
         } else {
-            // 根据人物展示不同emoji趣味感
             const emojiMap = { "马龙":"🐉", "张继科":"🐺", "樊振东":"🐼", "孙颖莎":"⚡", "张怡宁":"❄️", "许昕":"🎭", "莫雷加德":"🌀", "王曼昱":"🗡️" };
             avatarDiv.innerHTML = emojiMap[bestPlayer.name] || "🏓";
             avatarDiv.style.fontSize = "58px";
         }
-        // 切换屏幕
         quizScreen.classList.remove('active');
         resultScreen.classList.add('active');
     }
@@ -513,12 +487,10 @@
         introScreen.classList.add('active');
     }
 
-    // 绑定事件
     startBtn.addEventListener('click', startQuiz);
     nextBtn.addEventListener('click', saveAndNext);
     restartBtn.addEventListener('click', restartTest);
 
-    // 预留给未来图片扩展，目前无图片但运行完美
 </script>
 </body>
 </html>
