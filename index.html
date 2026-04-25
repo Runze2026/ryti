@@ -78,6 +78,7 @@
             <div class="avatar" id="player-avatar">🏓</div>
             <div class="match-label">⚡ 你的专属搭档 ⚡</div>
             <h2 class="player-name" id="result-name"></h2>
+            <div class="match-percent" id="match-percent" style="font-size: 20px; font-weight: 700; color: var(--green); margin: 8px 0;"></div>
             <div class="trait-pills" id="result-traits"></div>
             <p class="desc-text" id="result-desc"></p>
             <button class="btn-main" id="restartBtn" style="margin-top: 28px; background:#2c3e2f;">重新测试</button>
@@ -336,39 +337,53 @@
     }
 
     function showResult() {
-        let bestPlayer = PLAYERS[0];
-        let highestScore = -Infinity;
-        for (let player of PLAYERS) {
-            let total = 0;
-            for (let [trait, weight] of Object.entries(player.match)) {
-                let score = userScores[trait] || 0;
-                total += score * weight;
-            }
-            if (total > highestScore) {
-                highestScore = total;
-                bestPlayer = player;
-            }
+    let bestPlayer = PLAYERS[0];
+    let highestScore = -Infinity;
+    for (let player of PLAYERS) {
+        let total = 0;
+        for (let [trait, weight] of Object.entries(player.match)) {
+            let score = userScores[trait] || 0;
+            total += score * weight;
         }
-        document.getElementById('result-name').innerText = bestPlayer.name;
-        document.getElementById('result-desc').innerText = bestPlayer.desc;
-        const traitsContainer = document.getElementById('result-traits');
-        traitsContainer.innerHTML = bestPlayer.traits.map(t => `<span class="pill">${t}</span>`).join('');
-        const avatarDiv = document.getElementById('player-avatar');
-        avatarDiv.innerHTML = '';  
-        if (bestPlayer.img && bestPlayer.img !== "") {
-            const img = document.createElement('img');
-            img.src = bestPlayer.img;
-            img.alt = bestPlayer.name;
-            img.onerror = () => { avatarDiv.innerHTML = '🏓'; };
-            avatarDiv.appendChild(img);
-        } else {
-            const emojiMap = { "马龙":"🐉", "张继科":"🐺", "樊振东":"🐼", "孙颖莎":"⚡", "张怡宁":"❄️", "许昕":"🎭", "莫雷加德":"🌀", "王曼昱":"🗡️" };
-            avatarDiv.innerHTML = emojiMap[bestPlayer.name] || "🏓";
-            avatarDiv.style.fontSize = "58px";
+        if (total > highestScore) {
+            highestScore = total;
+            bestPlayer = player;
         }
-        quizScreen.classList.remove('active');
-        resultScreen.classList.add('active');
     }
+
+
+    let totalUserScore = 0;
+    for (let [trait, score] of Object.entries(userScores)) {
+        if (trait !== 'neutral') {
+            totalUserScore += score;
+        }
+    }
+    let percent = totalUserScore === 0 ? 50 : Math.min(99, Math.floor((highestScore / totalUserScore) * 100));
+    const percentDiv = document.getElementById('match-percent');
+    if (percentDiv) {
+        percentDiv.innerText = `🔥 匹配度 ${percent}%`;
+    }
+
+    document.getElementById('result-name').innerText = bestPlayer.name;
+    document.getElementById('result-desc').innerText = bestPlayer.desc;
+    const traitsContainer = document.getElementById('result-traits');
+    traitsContainer.innerHTML = bestPlayer.traits.map(t => `<span class="pill">${t}</span>`).join('');
+    const avatarDiv = document.getElementById('player-avatar');
+    avatarDiv.innerHTML = '';  
+    if (bestPlayer.img && bestPlayer.img !== "") {
+        const img = document.createElement('img');
+        img.src = bestPlayer.img;
+        img.alt = bestPlayer.name;
+        img.onerror = () => { avatarDiv.innerHTML = '🏓'; };
+        avatarDiv.appendChild(img);
+    } else {
+        const emojiMap = { "马龙":"🐉", "张继科":"🐺", "樊振东":"🐼", "孙颖莎":"⚡", "张怡宁":"❄️", "许昕":"🎭", "莫雷加德":"🌀", "王曼昱":"🗡️", "王励勤":"💪", "马琳":"🎩", "刘国梁":"🧠", "孔令辉":"👑", "陈梦":"👸", "王楚钦":"🔥", "伊藤美诚":"🎭" };
+        avatarDiv.innerHTML = emojiMap[bestPlayer.name] || "🏓";
+        avatarDiv.style.fontSize = "58px";
+    }
+    quizScreen.classList.remove('active');
+    resultScreen.classList.add('active');
+}
 
     function restartTest() {
         resultScreen.classList.remove('active');
