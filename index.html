@@ -74,16 +74,19 @@
     </div>
 
     <div id="result-screen" class="screen">
-        <div class="card result-card">
-            <div class="avatar" id="player-avatar">🏓</div>
-            <div class="match-label">⚡ 你的专属搭档 ⚡</div>
-            <h2 class="player-name" id="result-name"></h2>
-            <div class="match-percent" id="match-percent" style="font-size: 20px; font-weight: 700; color: var(--green); margin: 8px 0;"></div>
-            <div class="trait-pills" id="result-traits"></div>
-            <p class="desc-text" id="result-desc"></p>
-            <button class="btn-main" id="restartBtn" style="margin-top: 28px; background:#2c3e2f;">重新测试</button>
+    <div class="card result-card">
+        <div class="avatar" id="player-avatar">🏓</div>
+        <div class="match-label">⚡ 你的专属搭档 ⚡</div>
+        <h2 class="player-name" id="result-name"></h2>
+        <div class="trait-pills" id="result-traits"></div>
+        <p class="desc-text" id="result-desc"></p>
+        <!-- 两个按钮并列放置 -->
+        <div style="display: flex; gap: 12px; margin-top: 28px;">
+            <button class="btn-main" id="shareBtn" style="background: #3a6b4a; flex: 1;">📤 分享结果</button>
+            <button class="btn-main" id="restartBtn" style="background: #2c3e2f; flex: 1;">重新测试</button>
         </div>
     </div>
+</div>
     <div class="footer-note">RYTI ARCHIVE · 基于竞技人格算法</div>
 </main>
 
@@ -390,9 +393,44 @@
         introScreen.classList.add('active');
     }
 
+        // 分享结果功能
+    function shareResult() {
+    // 1. 获取运动员名字
+    const playerName = document.getElementById('result-name').innerText;
+    
+    // 2. 获取特质标签（例如“六边形战士、技术全能”）
+    const traitSpans = document.querySelectorAll('#result-traits .pill');
+    const traits = Array.from(traitSpans).map(span => span.innerText).join('、');
+    
+    // 3. 获取匹配度百分比（如果您已经添加了百分比功能，否则可以忽略）
+    let percentText = '';
+    const percentDiv = document.getElementById('match-percent');
+    if (percentDiv) {
+        percentText = percentDiv.innerText;  // 例如 "🔥 匹配度 87%"
+    }
+    
+    // 4. 获取简短描述（取前60个字符，避免太长）
+    const fullDesc = document.getElementById('result-desc').innerText;
+    const shortDesc = fullDesc.length > 60 ? fullDesc.substring(0, 60) + '…' : fullDesc;
+    
+    // 5. 组合分享文本
+    const shareText = `🏓 我的RYTI乒乓球人格匹配结果：${playerName} ${percentText}\n✨ 特质：${traits}\n💡 ${shortDesc}\n🔗 测试链接：${window.location.href}`;
+    
+    // 6. 复制到剪贴板
+    navigator.clipboard.writeText(shareText).then(() => {
+        alert('✅ 结果已复制，赶快去分享吧！');
+    }).catch(() => {
+        alert('❌ 复制失败，您可以手动复制上面的文字。');
+    });
+}
+
     startBtn.addEventListener('click', startQuiz);
     nextBtn.addEventListener('click', saveAndNext);
     restartBtn.addEventListener('click', restartTest);
+    const shareBtn = document.getElementById('shareBtn');
+    if (shareBtn) {
+        shareBtn.addEventListener('click', shareResult);
+    }
 </script>
 </body>
 </html>
