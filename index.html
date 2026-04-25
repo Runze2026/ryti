@@ -114,9 +114,9 @@
             <h1 class="intro-title">测出你的<br><span>乒乓灵魂人格</span></h1>
             <p style="color:var(--ink-muted); margin-bottom: 12px;">🎖️ 20维深度测评 · 匹配你的大满贯基因</p>
             <div class="badge-grid">
-                🏓 15位顶尖运动员数据库<br>
-                ⚡  A/B/C/D/E 五选一 · 第5项为「以上都不存在」<br>
-                🧠 涵盖力量、速度、战术、心态、灵性
+                🏓 几十位顶尖乒乓球运动员数据库<br>
+                ⚡ 如果大家想提出建议的可以加我微信yurunze2020<br>
+                🧠 看看哪个运动员最匹配你
             </div>
             <button class="btn-main" id="startBtn">开始性格匹配 →</button>
         </div>
@@ -159,36 +159,36 @@
         { text: "关键分落后时，你通常如何应对？", options: [
             { text: "相信自己的基本功，一分一分耐心追", tags: { technical: 2, patient: 2 } },
             { text: "直接搏杀，用气势压制对手", tags: { aggressive: 2, powerful: 1 } },
-            { text: "不断变化发球和落点，智取", tags: { tactical: 2, smart: 2 } },
-            { text: "提升击球节奏，用速度压迫", tags: { fast: 2, aggressive: 1 } },
+            { text: "不断变化节奏和角度，智取", tags: { tactical: 2, smart: 2 } },
+            { text: "弃了，直接下一把", tags: { fast: 2, aggressive: 1 } },
             { text: "以上都不存在，我可能随性发挥", tags: { neutral: 1 } }
         ]},
-        { text: "你最满意的得分方式是什么？", options: [
-            { text: "多拍相持后，靠稳定实力拿下", tags: { technical: 2, patient: 1 } },
-            { text: "一板暴力扣杀，直接得分", tags: { aggressive: 2, powerful: 2 } },
+        { text: "你最擅长的得分方式是什么？", options: [
+            { text: "多拍相持后，靠实力拿捏", tags: { technical: 2, patient: 1 } },
+            { text: "发球转不转，让对手吃到饱", tags: { aggressive: 2, powerful: 2 } },
             { text: "控制节奏让对手失误", tags: { smart: 2, defensive: 1 } },
-            { text: "防守反击，打出刁钻大角度", tags: { tactical: 2, technical: 1 } },
-            { text: "以上都不存在，赢球就好", tags: { neutral: 1 } }
+            { text: "防守反击，等到机会一击制胜", tags: { tactical: 2, technical: 1 } },
+            { text: "以上都不存在，赢球就行", tags: { neutral: 1 } }
         ]},
-        { text: "平日训练，你最专注哪一点？", options: [
+        { text: "平日训练，你最喜欢练习哪一点？", options: [
             { text: "稳固正反手定点技术", tags: { technical: 2, patient: 1 } },
-            { text: "强化自己的绝招（发球/杀板）", tags: { smart: 2, aggressive: 1 } },
+            { text: "强化自己的优势", tags: { smart: 2, aggressive: 1 } },
             { text: "步法和体能，全场飞奔", tags: { powerful: 2, fast: 2 } },
             { text: "模拟实战战术套路", tags: { tactical: 2, smart: 1 } },
             { text: "以上都不存在，随便打打", tags: { neutral: 1 } }
         ]},
-        { text: "对手打出一个意想不到的怪球，你会？", options: [
-            { text: "冷静判断旋转，先稳控一板", tags: { patient: 2, technical: 1 } },
-            { text: "无论什么球，我都全力反拉", tags: { aggressive: 2, powerful: 2 } },
-            { text: "借力打力，回敬一个更怪的球", tags: { smart: 2, tactical: 1 } },
-            { text: "依靠敏捷反应快速移动", tags: { fast: 2, technical: 1 } },
+        { text: "十比十赛点，对手打出一个意想不到的运气球，你会？", options: [
+            { text: "感到无奈，但是相信自己能追回来", tags: { patient: 2, technical: 1 } },
+            { text: "把拍子扔了，这还打个毛", tags: { aggressive: 2, powerful: 2 } },
+            { text: "发球擦网了，这球不算", tags: { smart: 2, tactical: 1 } },
+            { text: "感到惊讶，并认为自己接下来也可以擦边/擦网", tags: { fast: 2, technical: 1 } },
             { text: "以上都不存在，直接懵掉", tags: { neutral: 1 } }
         ]},
         { text: "你最渴望拥有的竞技特质是？", options: [
             { text: "如城墙般的稳定性与心理", tags: { patient: 3, defensive: 1 } },
-            { text: "毁灭性的绝对力量", tags: { powerful: 3, aggressive: 1 } },
+            { text: "毁灭性的绝对爆发", tags: { powerful: 3, aggressive: 1 } },
             { text: "精密计算般的战术头脑", tags: { smart: 3, tactical: 2 } },
-            { text: "闪电般的极限速度", tags: { fast: 3, aggressive: 1 } },
+            { text: "闪电般的救球速度", tags: { fast: 3, aggressive: 1 } },
             { text: "以上都不存在，快乐乒乓最重要", tags: { neutral: 1 } }
         ]},
         { text: "比赛前你通常会做什么来准备？", options: [
@@ -200,7 +200,7 @@
         ]},
         { text: "当连续失误时，你第一时间会？", options: [
             { text: "叫暂停，深呼吸调整节奏", tags: { patient: 2, tactical: 1 } },
-            { text: "更用力地击球，试图找回手感", tags: { aggressive: 2, powerful: 1 } },
+            { text: "弃了，下一把赢回来", tags: { aggressive: 2, powerful: 1 } },
             { text: "改变发球或接发球策略", tags: { smart: 2, tactical: 2 } },
             { text: "加快节奏，以减少思考时间", tags: { fast: 2, aggressive: 1 } },
             { text: "以上都不存在，继续原样", tags: { neutral: 1 } }
@@ -213,25 +213,25 @@
             { text: "以上都不存在，合得来就行", tags: { neutral: 1 } }
         ]},
         { text: "对于发球，你更倾向于？", options: [
-            { text: "旋转变化多端的发球", tags: { technical: 2, smart: 1 } },
-            { text: "直接发球抢攻的套路", tags: { aggressive: 2, tactical: 1 } },
-            { text: "超快速度的急长发球", tags: { fast: 2 } },
-            { text: "稳定不出台的短球", tags: { patient: 1, defensive: 1 } },
+            { text: "转不转，让对手吃到饱", tags: { technical: 2, smart: 1 } },
+            { text: "拿球就发，主打出其不意", tags: { aggressive: 2, tactical: 1 } },
+            { text: "赛点球，遮一板应该没事", tags: { fast: 2 } },
+            { text: "超长待机，等对手松懈再发球", tags: { patient: 1, defensive: 1 } },
             { text: "以上都不存在，随便发", tags: { neutral: 1 } }
         ]},
         { text: "面对削球手，你的策略是？", options: [
             { text: "耐心拉弧圈，寻找机会", tags: { patient: 2, technical: 2 } },
-            { text: "暴力扣杀，一击制胜", tags: { aggressive: 2, powerful: 2 } },
+            { text: "上来就冲，进攻才是硬道理", tags: { aggressive: 2, powerful: 2 } },
             { text: "左右调动，消耗对手", tags: { tactical: 2, smart: 1 } },
-            { text: "放短球结合长球", tags: { smart: 2, technical: 1 } },
-            { text: "以上都不存在，不擅长打削球", tags: { neutral: 1 } }
+            { text: "前三板直接抬走了", tags: { smart: 2, technical: 1 } },
+            { text: "以上都不存在", tags: { neutral: 1 } }
         ]},
         { text: "你对自己反手技术的评价是？", options: [
             { text: "稳定相持，落点精准", tags: { technical: 2, patient: 1 } },
             { text: "暴力反撕，一板过", tags: { aggressive: 2, powerful: 2 } },
             { text: "防守反击，借力变线", tags: { defensive: 2, smart: 1 } },
-            { text: "速度极快，连续压迫", tags: { fast: 2, aggressive: 1 } },
-            { text: "以上都不存在，反手是短板", tags: { neutral: 1 } }
+            { text: "反手和没有一样，只用正手", tags: { neutral: 2, aggressive: 1 } },
+            { text: "以上都不存在", tags: { neutral: 1 } }
         ]},
         { text: "比赛中你更喜欢哪种战术？", options: [
             { text: "压中路调两角", tags: { tactical: 2, patient: 1 } },
@@ -240,19 +240,19 @@
             { text: "快撕快带，打速度差", tags: { fast: 2 } },
             { text: "以上都不存在，看临场感觉", tags: { neutral: 1 } }
         ]},
-        { text: "对于体能训练，你的态度？", options: [
-            { text: "非常重视，每周固定训练", tags: { powerful: 2, fast: 1 } },
-            { text: "一般，更爱练技术", tags: { technical: 2, neutral: 1 } },
-            { text: "不喜欢，但会做必要的", tags: { patient: 1 } },
-            { text: "从不专门练体能", tags: { neutral: 2 } },
-            { text: "以上都不存在，靠比赛保持", tags: { neutral: 1 } }
+        { text: "平时去球馆碰见怪胶大叔，你怎么办", options: [
+            { text: "认真打，能赢才是硬道理", tags: { powerful: 2, fast: 1 } },
+            { text: "随便打两下赶紧溜了", tags: { technical: 2, neutral: 1 } },
+            { text: "装看不见", tags: { patient: 1 } },
+            { text: "就喜欢打怪胶", tags: { neutral: 2 } },
+            { text: "以上都不存在", tags: { neutral: 1 } }
         ]},
         { text: "你如何处理裁判的争议判罚？", options: [
             { text: "冷静交涉，尊重裁判", tags: { patient: 2, technical: 1 } },
-            { text: "情绪激动，但会克制", tags: { aggressive: 1, neutral: 1 } },
-            { text: "战略性地与裁判沟通", tags: { smart: 2, tactical: 1 } },
+            { text: "裁判收钱了", tags: { aggressive: 1, neutral: 1 } },
+            { text: "调监控", tags: { smart: 2, tactical: 1 } },
             { text: "完全不关心，专注下一分", tags: { patient: 2, neutral: 1 } },
-            { text: "以上都不存在，会发怒", tags: { aggressive: 1 } }
+            { text: "会发怒，直接弃赛", tags: { aggressive: 1 } }
         ]},
         { text: "你更倾向于哪种握拍方式？", options: [
             { text: "横拍，两面均衡", tags: { technical: 2, patient: 1 } },
@@ -268,12 +268,12 @@
             { text: "找教练专门指导", tags: { patient: 1, technical: 1 } },
             { text: "以上都不存在，不练新技术", tags: { neutral: 2 } }
         ]},
-        { text: "你认为乒乓球比赛中最重要的是？", options: [
-            { text: "技术全面性", tags: { technical: 3 } },
-            { text: "心理素质", tags: { patient: 3, defensive: 1 } },
-            { text: "战术执行力", tags: { tactical: 3, smart: 1 } },
-            { text: "身体爆发力", tags: { powerful: 3, fast: 1 } },
-            { text: "以上都不存在，运气最重要", tags: { neutral: 2 } }
+        { text: "关键分对手开遮怎么办？", options: [
+            { text: "我技术全面，不怕", tags: { technical: 3 } },
+            { text: "冷静沟通，违规就是违规", tags: { patient: 3, defensive: 1 } },
+            { text: "遮回去，看谁先被罚", tags: { aggressive: 3, smart: 1 } },
+            { text: "一板直接拧死", tags: { powerful: 3, fast: 1 } },
+            { text: "以上都不存在", tags: { neutral: 2 } }
         ]},
         { text: "你更享受哪种比赛过程？", options: [
             { text: "激烈对拉，相持得分", tags: { technical: 2, powerful: 1 } },
@@ -289,12 +289,12 @@
             { text: "一种速度与反应的挑战", tags: { fast: 2 } },
             { text: "以上都不存在，就是娱乐", tags: { neutral: 2 } }
         ]},
-        { text: "你最喜欢的乒乓球明星特质是？", options: [
-            { text: "马龙的全面与稳定", tags: { technical: 2, patient: 1 } },
-            { text: "张继科的狠劲与血性", tags: { aggressive: 3, powerful: 1 } },
-            { text: "许昕的创造力与手感", tags: { smart: 2, tactical: 2 } },
-            { text: "樊振东的力量与质量", tags: { powerful: 3, aggressive: 1 } },
-            { text: "以上都不存在，我不追星", tags: { neutral: 1 } }
+        { text: "对面啦啦队很多，我方啥也没有，你怎么办？", options: [
+            { text: "调整心态，一分一分拼", tags: { technical: 2, patient: 1 } },
+            { text: "不公平，没得打", tags: { aggressive: 3, powerful: 1 } },
+            { text: "就喜欢不被看好然后翻盘的感觉", tags: { smart: 2, tactical: 2 } },
+            { text: "赢一个球吼回去，看看谁声大", tags: { powerful: 3, aggressive: 1 } },
+            { text: "以上都不存在", tags: { neutral: 1 } }
         ]}
     ];
 
