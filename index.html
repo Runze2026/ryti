@@ -1,263 +1,246 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RYTI · 你是哪位乒乓球运动员？</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --green: #1a6b4a; --green-light: #2d9e6e; --green-pale: #e8f5ee;
-    --green-mid: #c2e8d4; --ink: #1a1a1a; --ink-muted: #555;
-    --ink-faint: #999; --surface: #fafaf8; --white: #ffffff;
-    --border: #e0e0d8; --radius: 16px;
-  }
-  html { scroll-behavior: smooth; }
-  body { font-family: 'Noto Sans SC', sans-serif; background: var(--surface); color: var(--ink); min-height: 100vh; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; }
-  header { width: 100%; padding: 28px 40px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); background: var(--white); }
-  .logo { font-family: 'Noto Serif SC', serif; font-weight: 900; font-size: 26px; letter-spacing: 0.12em; color: var(--green); }
-  .logo-sub { font-size: 11px; color: var(--ink-faint); font-weight: 300; letter-spacing: 0.2em; margin-top: 2px; }
-  main { width: 100%; max-width: 680px; padding: 0 24px 80px; flex: 1; }
-  .screen { display: none; }
-  .screen.active { display: block; }
-  .intro-hero { text-align: center; padding: 64px 0 48px; }
-  .intro-badge { display: inline-block; background: var(--green-pale); color: var(--green); font-size: 12px; font-weight: 500; letter-spacing: 0.15em; padding: 6px 18px; border-radius: 100px; margin-bottom: 28px; border: 1px solid var(--green-mid); }
-  .intro-title { font-family: 'Noto Serif SC', serif; font-size: 42px; font-weight: 900; line-height: 1.2; color: var(--ink); margin-bottom: 16px; }
-  .intro-title span { color: var(--green); }
-  .intro-desc { font-size: 16px; color: var(--ink-muted); line-height: 1.8; max-width: 420px; margin: 0 auto 40px; }
-  .btn-start { background: var(--green); color: #fff; border: none; padding: 18px 52px; font-size: 16px; font-family: 'Noto Sans SC', sans-serif; font-weight: 500; border-radius: 100px; cursor: pointer; transition: background 0.2s, transform 0.15s; letter-spacing: 0.05em; }
-  .btn-start:hover { background: var(--green-light); transform: translateY(-2px); }
-  .intro-players { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 52px; padding-top: 40px; border-top: 1px solid var(--border); }
-  .player-chip { display: flex; align-items: center; gap: 8px; background: var(--white); border: 1px solid var(--border); border-radius: 100px; padding: 8px 16px; font-size: 13px; color: var(--ink-muted); }
-  .quiz-top { padding: 36px 0 0; margin-bottom: 32px; }
-  .quiz-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
-  .quiz-label { font-size: 11px; letter-spacing: 0.2em; color: var(--ink-faint); text-transform: uppercase; }
-  .quiz-counter { font-size: 13px; color: var(--ink-faint); }
-  .progress-track { height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; }
-  .progress-fill { height: 100%; background: var(--green); border-radius: 2px; transition: width 0.5s cubic-bezier(0.4,0,0.2,1); }
-  .question-text { font-family: 'Noto Serif SC', serif; font-size: 22px; font-weight: 700; line-height: 1.6; color: var(--ink); margin-bottom: 28px; }
-  .options-list { display: flex; flex-direction: column; gap: 12px; }
-  .option-btn { width: 100%; text-align: left; background: var(--white); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 18px 20px; cursor: pointer; transition: border-color 0.2s, background 0.2s, transform 0.15s; display: flex; align-items: flex-start; gap: 14px; font-family: 'Noto Sans SC', sans-serif; }
-  .option-btn:hover { border-color: var(--green-light); background: var(--green-pale); transform: translateX(4px); }
-  .option-btn.selected { border-color: var(--green); background: var(--green-pale); transform: translateX(4px); }
-  .option-key { flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; background: var(--surface); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; color: var(--ink-muted); transition: background 0.2s, border-color 0.2s, color 0.2s; margin-top: 1px; }
-  .option-btn.selected .option-key { background: var(--green); border-color: var(--green); color: white; }
-  .option-text { font-size: 15px; line-height: 1.65; color: var(--ink); font-weight: 400; }
-  .quiz-footer { margin-top: 32px; display: flex; justify-content: flex-end; }
-  .btn-next { background: var(--green); color: #fff; border: none; padding: 14px 36px; font-size: 15px; font-family: 'Noto Sans SC', sans-serif; font-weight: 500; border-radius: 100px; cursor: pointer; transition: background 0.2s, transform 0.15s, opacity 0.2s; opacity: 0.35; pointer-events: none; }
-  .btn-next.active { opacity: 1; pointer-events: all; }
-  .btn-next.active:hover { background: var(--green-light); transform: translateY(-2px); }
-  .result-wrap { padding: 48px 0 0; }
-  .result-tag { font-size: 11px; letter-spacing: 0.2em; color: var(--ink-faint); text-transform: uppercase; margin-bottom: 24px; }
-  .result-card { background: var(--white); border: 1px solid var(--border); border-radius: 24px; overflow: hidden; }
-  .result-top { background: var(--green); padding: 40px 36px; color: white; position: relative; overflow: hidden; }
-  .result-top::before { content: ''; position: absolute; right: -40px; top: -40px; width: 200px; height: 200px; border-radius: 50%; background: rgba(255,255,255,0.06); }
-  .result-match { font-size: 13px; opacity: 0.75; letter-spacing: 0.1em; margin-bottom: 10px; }
-  .result-player-name { font-family: 'Noto Serif SC', serif; font-size: 38px; font-weight: 900; margin-bottom: 8px; position: relative; z-index: 1; }
-  .result-style { font-size: 14px; opacity: 0.85; position: relative; z-index: 1; }
-  .result-icon { position: absolute; right: 36px; top: 50%; transform: translateY(-50%); font-size: 64px; opacity: 0.9; z-index: 1; }
-  .result-body { padding: 36px; }
-  .result-desc { font-size: 15px; line-height: 1.9; color: var(--ink-muted); margin-bottom: 28px; }
-  .result-traits { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 36px; }
-  .trait-pill { background: var(--green-pale); color: var(--green); border: 1px solid var(--green-mid); border-radius: 100px; padding: 5px 14px; font-size: 12px; font-weight: 500; }
-  .result-actions { display: flex; gap: 12px; flex-wrap: wrap; }
-  .btn-share { flex: 1; min-width: 140px; padding: 14px 20px; border-radius: 100px; font-size: 14px; font-family: 'Noto Sans SC', sans-serif; font-weight: 500; cursor: pointer; transition: all 0.2s; text-align: center; border: 1.5px solid var(--green); background: transparent; color: var(--green); }
-  .btn-share:hover { background: var(--green-pale); }
-  .btn-retry { flex: 1; min-width: 140px; padding: 14px 20px; border-radius: 100px; font-size: 14px; font-family: 'Noto Sans SC', sans-serif; font-weight: 500; cursor: pointer; transition: all 0.2s; text-align: center; border: none; background: var(--green); color: white; }
-  .btn-retry:hover { background: var(--green-light); }
-  .runners-title { font-size: 13px; color: var(--ink-faint); letter-spacing: 0.1em; margin: 36px 0 16px; }
-  .runners-list { display: flex; flex-direction: column; gap: 10px; }
-  .runner-row { display: flex; align-items: center; gap: 14px; background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 14px 18px; }
-  .runner-icon { font-size: 22px; }
-  .runner-name { font-size: 14px; font-weight: 500; color: var(--ink); flex: 1; }
-  .runner-pct { font-size: 13px; color: var(--ink-faint); }
-  .runner-bar-wrap { flex: 2; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
-  .runner-bar { height: 100%; background: var(--green-mid); border-radius: 2px; }
-  @media (max-width: 480px) {
-    .intro-title { font-size: 30px; } header { padding: 20px; }
-    .result-top { padding: 32px 24px; } .result-body { padding: 24px; }
-    .result-icon { font-size: 44px; right: 20px; } .result-player-name { font-size: 28px; }
-    .question-text { font-size: 18px; }
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RYTI · 乒乓球运动员匹配测试</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --green: #1a6b4a; --green-light: #2d9e6e; --green-pale: #e8f5ee;
+            --ink: #1a1a1a; --ink-muted: #555; --surface: #fafaf8; --white: #ffffff;
+            --border: #e0e0d8; --radius: 16px;
+        }
+        body { 
+            font-family: 'Noto Sans SC', sans-serif; 
+            background: var(--surface); 
+            color: var(--ink); 
+            min-height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            overflow-x: hidden; 
+        }
+        header { width: 100%; padding: 20px; text-align: center; border-bottom: 1px solid var(--border); background: var(--white); }
+        .logo { font-family: 'Noto Serif SC', serif; font-weight: 900; font-size: 24px; color: var(--green); }
+        
+        main { width: 100%; max-width: 600px; padding: 20px; flex: 1; position: relative; }
+        .screen { display: none; width: 100%; }
+        .screen.active { display: block; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* 初始页 */
+        .intro-hero { text-align: center; padding: 40px 0; }
+        .intro-title { font-family: 'Noto Serif SC', serif; font-size: 32px; margin-bottom: 15px; }
+        .intro-title span { color: var(--green); }
+        .btn-start { 
+            background: var(--green); color: white; border: none; 
+            padding: 16px 40px; font-size: 18px; border-radius: 100px; 
+            cursor: pointer; font-weight: 500; transition: 0.2s;
+            box-shadow: 0 4px 12px rgba(26,107,74,0.2);
+        }
+        .btn-start:active { transform: scale(0.95); }
+
+        /* 题目页 */
+        .question-text { font-family: 'Noto Serif SC', serif; font-size: 20px; font-weight: 700; margin: 30px 0; line-height: 1.5; }
+        .options-list { display: flex; flex-direction: column; gap: 12px; }
+        .option-btn { 
+            background: white; border: 1.5px solid var(--border); padding: 16px; 
+            border-radius: var(--radius); text-align: left; cursor: pointer; font-size: 15px;
+            transition: 0.2s; display: flex; gap: 10px;
+        }
+        .option-btn.selected { border-color: var(--green); background: var(--green-pale); }
+        .quiz-footer { margin-top: 30px; text-align: right; }
+        .btn-next { 
+            background: var(--green); color: white; border: none; padding: 12px 30px; 
+            border-radius: 100px; opacity: 0.3; pointer-events: none; 
+        }
+        .btn-next.active { opacity: 1; pointer-events: all; cursor: pointer; }
+
+        /* 结果页 */
+        .result-card { background: white; border-radius: 24px; overflow: hidden; border: 1px solid var(--border); }
+        .result-top { background: var(--green); color: white; padding: 30px; text-align: center; }
+        .result-player-name { font-family: 'Noto Serif SC', serif; font-size: 36px; margin-top: 10px; }
+        .result-body { padding: 30px; line-height: 1.8; color: var(--ink-muted); }
+        .btn-retry { width: 100%; padding: 15px; background: var(--green); color: white; border: none; border-radius: 100px; margin-top: 20px; cursor: pointer; }
+    </style>
 </head>
 <body>
-<header>
-  <div>
-    <div class="logo">RYTI</div>
-    <div class="logo-sub">乒乓球运动员匹配测试</div>
-  </div>
-</header>
+
+<header><div class="logo">RYTI TEST</div></header>
+
 <main>
-  <div class="screen active" id="screen-intro">
-    <div class="intro-hero">
-      <div class="intro-badge">5 道题 · 8 位运动员</div>
-      <h1 class="intro-title">你是哪位<br><span>乒乓球运动员</span>？</h1>
-      <p class="intro-desc">通过 5 个场景选择，测出你的球风与哪位世界顶尖乒乓球运动员最为相似。</p>
-      <button class="btn-start" onclick="startQuiz()">开始测试</button>
-    </div>
-    <div class="intro-players">
-      <div class="player-chip"><span>🏓</span>马龙</div>
-      <div class="player-chip"><span>🏓</span>张继科</div>
-      <div class="player-chip"><span>🏓</span>樊振东</div>
-      <div class="player-chip"><span>🏓</span>王皓</div>
-      <div class="player-chip"><span>🏓</span>邓亚萍</div>
-      <div class="player-chip"><span>🏓</span>刘国梁</div>
-      <div class="player-chip"><span>🏓</span>张怡宁</div>
-      <div class="player-chip"><span>🏓</span>孙颖莎</div>
-    </div>
-  </div>
-  <div class="screen" id="screen-quiz">
-    <div class="quiz-top">
-      <div class="quiz-meta">
-        <span class="quiz-label" id="q-scene-label">场景</span>
-        <span class="quiz-counter" id="q-counter">1 / 5</span>
-      </div>
-      <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:20%"></div></div>
-    </div>
-    <p class="question-text" id="q-text"></p>
-    <div class="options-list" id="options-list"></div>
-    <div class="quiz-footer">
-      <button class="btn-next" id="btn-next" onclick="nextQuestion()">下一题 →</button>
-    </div>
-  </div>
-  <div class="screen" id="screen-result">
-    <div class="result-wrap">
-      <div class="result-tag">测试结果</div>
-      <div class="result-card">
-        <div class="result-top">
-          <div class="result-match">你最像的运动员是</div>
-          <div class="result-player-name" id="res-name">—</div>
-          <div class="result-style" id="res-style">—</div>
-          <div class="result-icon" id="res-icon">🏓</div>
+    <div class="screen active" id="screen-intro">
+        <div class="intro-hero">
+            <h1 class="intro-title">你是哪位<br><span>乒乓球运动员</span>？</h1>
+            <p style="color:#666; margin-bottom: 30px;">5个真实场景，测出你的竞技人格</p>
+            <button class="btn-start" onclick="startQuiz()">开始测试</button>
         </div>
-        <div class="result-body">
-          <p class="result-desc" id="res-desc"></p>
-          <div class="result-traits" id="res-traits"></div>
-          <div class="result-actions">
-            <button class="btn-share" onclick="shareResult()">分享结果</button>
-            <button class="btn-retry" onclick="restartQuiz()">重新测试</button>
-          </div>
-        </div>
-      </div>
-      <div class="runners-title">其他相近运动员</div>
-      <div class="runners-list" id="runners-list"></div>
     </div>
-  </div>
+
+    <div class="screen" id="screen-quiz">
+        <div style="font-size: 12px; color: #999;" id="q-counter">1 / 5</div>
+        <p class="question-text" id="q-text">正在加载题目...</p>
+        <div class="options-list" id="options-list"></div>
+        <div class="quiz-footer">
+            <button class="btn-next" id="btn-next" onclick="nextQuestion()">下一题 →</button>
+        </div>
+    </div>
+
+    <div class="screen" id="screen-result">
+        <div class="result-card">
+            <div class="result-top">
+                <div style="opacity: 0.8;">匹配成功！你最像</div>
+                <div class="result-player-name" id="res-name">马龙</div>
+            </div>
+            <div class="result-body">
+                <p id="res-desc"></p>
+                <button class="btn-retry" onclick="location.reload()">重新测试</button>
+            </div>
+        </div>
+    </div>
 </main>
+
 <script>
-const questions = [
-  { scene:"场景 1", text:"比赛关键时刻，对手打出一个出乎意料的弧圈球，你会怎么做？", options:[
-    {key:"A",text:"立刻反手快速回球，以速度压制对方节奏",tags:{aggressive:2,fast:2}},
-    {key:"B",text:"稳住退台，观察对方习惯后再寻找机会反攻",tags:{defensive:2,patient:2}},
-    {key:"C",text:"侧身正手暴力扣杀，用力量结束这一球",tags:{aggressive:2,powerful:2}},
-    {key:"D",text:"轻轻搓短球至对方正手位，制造对方失误",tags:{tactical:2,smart:2}},
-    {key:"E",text:"以上都不是我的打法",tags:{neutral:1}}
-  ]},
-  { scene:"场景 2", text:"你在训练中最享受哪种状态？", options:[
-    {key:"A",text:"反复练习同一个技术动作直到完美",tags:{technical:2,patient:1}},
-    {key:"B",text:"和队友实战对打，在对抗中找感觉",tags:{aggressive:2,fast:1}},
-    {key:"C",text:"分析比赛录像，研究战术布局",tags:{tactical:2,smart:2}},
-    {key:"D",text:"体能训练，保持极致的移动速度和爆发力",tags:{fast:2,powerful:1}},
-    {key:"E",text:"以上都不是",tags:{neutral:1}}
-  ]},
-  { scene:"场景 3", text:"落后两分，剩最后一局，你的心态是？", options:[
-    {key:"A",text:"保持冷静，相信自己的体系，一分一分地追",tags:{patient:2,defensive:1}},
-    {key:"B",text:"主动求变，打对方意想不到的球",tags:{tactical:2,smart:1}},
-    {key:"C",text:"发力搏杀，用气势和力量压垮对方",tags:{aggressive:2,powerful:2}},
-    {key:"D",text:"加快节奏，用速度让对手来不及反应",tags:{fast:2,aggressive:1}},
-    {key:"E",text:"以上都不是",tags:{neutral:1}}
-  ]},
-  { scene:"场景 4", text:"你的发球最擅长制造什么效果？", options:[
-    {key:"A",text:"强烈旋转变化，让对手判断失误直接出界",tags:{technical:2,smart:1}},
-    {key:"B",text:"出其不意的变速，完全打乱对方节奏",tags:{tactical:2,fast:1}},
-    {key:"C",text:"大角度发球，上手直接得分",tags:{aggressive:2,powerful:1}},
-    {key:"D",text:"短而低的台内球，控制前三板主动权",tags:{patient:2,tactical:1}},
-    {key:"E",text:"以上都不是",tags:{neutral:1}}
-  ]},
-  { scene:"场景 5", text:"如果用一个词描述你最理想的球风，你会选哪个？", options:[
-    {key:"A",text:"凌厉——每一板都要给对方施压，让对手喘不过气",tags:{aggressive:2,powerful:2}},
-    {key:"B",text:"细腻——技术全面无死角，打法精致有层次",tags:{technical:2,smart:2}},
-    {key:"C",text:"快准——速度是最大武器，打对方措手不及",tags:{fast:2,aggressive:1}},
-    {key:"D",text:"稳健——让对手先出错，控制节奏掌握主动",tags:{patient:2,defensive:2}},
-    {key:"E",text:"以上都不是",tags:{neutral:1}}
-  ]}
-];
-const players = [
-  {name:"马龙",icon:"🏆",style:"全面型技术大师",desc:"你和马龙一样，拥有极其全面的技术体系，没有明显短板。你能在任何局面下找到最合适的打法，心理素质稳定，大赛经验丰富，是当之无愧的"技术型全能选手"。",traits:["全面无短板","大赛心理稳定","技术精湛","持续进化"],match:{technical:3,patient:2,smart:2,defensive:1}},
-  {name:"张继科",icon:"⚡",style:"爆发型反手王者",desc:"你和张继科一样，拥有极强的进攻欲望和爆发力。你在关键时刻敢于搏杀，反手弧圈球威力巨大，用气势和力量压制对手，充满竞技魄力和霸气。",traits:["反手爆发力强","关键球搏杀","霸气侧漏","大心脏"],match:{aggressive:3,powerful:3,fast:1}},
-  {name:"樊振东",icon:"💪",style:"力量型主动进攻",desc:"你和樊振东相似，擅长以力量为核心发起主动进攻，弧圈球质量极高，持续施压是你最大的特点。你的正手攻球力量极大，让对手难以招架。",traits:["正手力量惊人","持续施压","主动进攻","稳定性强"],match:{powerful:3,aggressive:2,technical:2}},
-  {name:"王皓",icon:"🎯",style:"战术型反手专家",desc:"你和王皓一样善于运用战术，尤其擅长反手技术，能在局势复杂时冷静分析并找到突破口。你善于用智慧打球，而不仅仅依赖蛮力。",traits:["反手技术精湛","战术意识强","冷静分析","智慧打球"],match:{tactical:3,smart:3,defensive:1}},
-  {name:"邓亚萍",icon:"🔥",style:"速度型快攻霸主",desc:"你和邓亚萍一样，以超快节奏和强烈侵略性著称。你喜欢用速度和积极性打乱对手节奏，让对手永远来不及准备。",traits:["速度超快","侵略性强","节奏控制","快攻致命"],match:{fast:3,aggressive:3}},
-  {name:"刘国梁",icon:"🧠",style:"智慧型战术大师",desc:"你和刘国梁一样，以超强的战术意识和球场智慧著称。你善于在比赛中随机应变，用脑子打球，能看穿对手规律并加以利用。",traits:["战术天才","随机应变","看穿对手","用脑打球"],match:{smart:3,tactical:3,technical:1}},
-  {name:"张怡宁",icon:"👑",style:"稳健型统治霸主",desc:"你和张怡宁一样，以无与伦比的稳定性和心理素质著称。你不容易出错，能够在巨大压力下保持冷静，用极致的稳定性碾压对手。",traits:["稳定性极高","抗压能力强","极少失误","心理素质顶级"],match:{patient:3,defensive:2,technical:2}},
-  {name:"孙颖莎",icon:"🌟",style:"全攻型新生代王者",desc:"你和孙颖莎一样，兼具速度与力量，正反手均衡，进攻能力出众。你代表着现代乒乓球的新趋势——全攻型打法，思路清晰，且有着超越年龄的成熟。",traits:["正反手均衡","速度与力量兼备","全攻型打法","大赛成熟"],match:{fast:2,aggressive:2,powerful:2,technical:1}}
-];
-let currentQ=0,scores={},selectedIdx=-1;
-function initScores(){scores={};["aggressive","fast","powerful","technical","smart","patient","defensive","tactical","neutral"].forEach(t=>scores[t]=0);}
-function startQuiz(){initScores();currentQ=0;selectedIdx=-1;showScreen('screen-quiz');renderQuestion();}
-function renderQuestion(){
-  const q=questions[currentQ];
-  document.getElementById('q-scene-label').textContent=q.scene;
-  document.getElementById('q-counter').textContent=`${currentQ+1} / ${questions.length}`;
-  document.getElementById('progress-fill').style.width=`${(currentQ/questions.length)*100+20}%`;
-  document.getElementById('q-text').textContent=q.text;
-  const list=document.getElementById('options-list');
-  list.innerHTML='';
-  q.options.forEach((opt,i)=>{
-    const btn=document.createElement('button');
-    btn.className='option-btn';
-    btn.innerHTML=`<span class="option-key">${opt.key}</span><span class="option-text">${opt.text}</span>`;
-    btn.onclick=()=>selectOption(i);
-    list.appendChild(btn);
-  });
-  selectedIdx=-1;
-  const nb=document.getElementById('btn-next');
-  nb.classList.remove('active');
-  nb.textContent=currentQ<questions.length-1?'下一题 →':'查看结果 →';
-}
-function selectOption(idx){
-  selectedIdx=idx;
-  document.querySelectorAll('.option-btn').forEach((btn,i)=>btn.classList.toggle('selected',i===idx));
-  document.getElementById('btn-next').classList.add('active');
-}
-function nextQuestion(){
-  if(selectedIdx<0)return;
-  const tags=questions[currentQ].options[selectedIdx].tags;
-  Object.entries(tags).forEach(([t,v])=>scores[t]=(scores[t]||0)+v);
-  currentQ++;
-  if(currentQ<questions.length){selectedIdx=-1;renderQuestion();}else{showResult();}
-}
-function showResult(){
-  const ranked=players.map(p=>{
-    let s=0;Object.entries(p.match).forEach(([t,w])=>s+=(scores[t]||0)*w);return{...p,score:s};
-  }).sort((a,b)=>b.score-a.score);
-  const best=ranked[0];
-  const total=ranked.reduce((s,p)=>s+p.score,0)||1;
-  document.getElementById('res-name').textContent=best.name;
-  document.getElementById('res-style').textContent=best.style;
-  document.getElementById('res-icon').textContent=best.icon;
-  document.getElementById('res-desc').textContent=best.desc;
-  document.getElementById('res-traits').innerHTML=best.traits.map(t=>`<span class="trait-pill">${t}</span>`).join('');
-  document.getElementById('runners-list').innerHTML=ranked.slice(1,4).map(p=>{
-    const pct=Math.round((p.score/total)*100);
-    return`<div class="runner-row"><span class="runner-icon">${p.icon}</span><span class="runner-name">${p.name}</span><div class="runner-bar-wrap"><div class="runner-bar" style="width:${pct}%"></div></div><span class="runner-pct">${pct}%</span></div>`;
-  }).join('');
-  showScreen('screen-result');
-}
-function restartQuiz(){showScreen('screen-intro');}
-function shareResult(){
-  const name=document.getElementById('res-name').textContent;
-  const text=`我做了RYTI乒乓球运动员匹配测试，我最像${name}！你来测测看？`;
-  if(navigator.share){navigator.share({title:'RYTI测试',text,url:location.href});}
-  else{navigator.clipboard.writeText(text+' '+location.href).then(()=>alert('结果已复制到剪贴板！'));}
-}
-function showScreen(id){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  window.scrollTo({top:0,behavior:'smooth'});
-}
+    // 数据配置
+    const questions = [
+        { text: "关键球时刻，对手发了一个长旋球，你会？", options: [
+            { text: "果断上手抢拉，先发制人", tags: { aggressive: 2 } },
+            { text: "稳稳搓过去，等对方先失误", tags: { patient: 2 } },
+            { text: "快速变线，打对手一个措手不及", tags: { tactical: 2 } },
+            { text: "侧身正手暴冲，一板过", tags: { powerful: 2 } },
+            { text: "凭直觉乱打，以上都不是我的风格", tags: { neutral: 1 } }
+        ]},
+        { text: "你最喜欢的得分方式是？", options: [
+            { text: "阵地战，多板数对攻获胜", tags: { technical: 2 } },
+            { text: "发球抢攻，三板斧解决", tags: { aggressive: 2 } },
+            { text: "防守反击，让对方打不死自己", tags: { defensive: 2 } },
+            { text: "算准落点，让对方跑断腿", tags: { smart: 2 } },
+            { text: "怎么爽怎么打", tags: { neutral: 1 } }
+        ]},
+        { text: "如果你落后很多，你的心态是？", options: [
+            { text: "毫无波动，一分一分追", tags: { patient: 2 } },
+            { text: "兴奋起来，开始搏杀", tags: { aggressive: 2 } },
+            { text: "思考对方弱点，寻求战术变化", tags: { tactical: 2 } },
+            { text: "加快节奏，速战速决", tags: { fast: 2 } },
+            { text: "想快点打完下课", tags: { neutral: 1 } }
+        ]},
+        { text: "平时练习中，你更倾向于？", options: [
+            { text: "苦练基本功，追求动作标准", tags: { technical: 2 } },
+            { text: "专门练绝招，比如勾手发球", tags: { smart: 2 } },
+            { text: "增强体能，跑动覆盖全场", tags: { powerful: 2 } },
+            { text: "打实战，找对抗感觉", tags: { aggressive: 2 } },
+            { text: "随缘练习", tags: { neutral: 1 } }
+        ]},
+        { text: "用一个词评价你的打法？", options: [
+            { text: "凶狠", tags: { aggressive: 2 } },
+            { text: "油滑", tags: { smart: 2 } },
+            { text: "稳重", tags: { patient: 2 } },
+            { text: "快节奏", tags: { fast: 2 } },
+            { text: "佛系", tags: { neutral: 1 } }
+        ]}
+    ];
+
+    const players = [
+        { name: "马龙", desc: "你是如龙般的‘六边形战士’。技术全面、战术稳定，在关键时刻总能用最稳健的方式掌控局面。", match: { technical: 3, patient: 2 } },
+        { name: "张继科", desc: "你是带血性的‘藏獒’。拥有极强的爆发力和反手技术，关键时刻敢于搏杀，是天生的顶级竞技者。", match: { aggressive: 3, powerful: 2 } },
+        { name: "樊振东", desc: "你是力量惊人的‘小胖’。正手弧圈球质量极高，喜欢在实力对抗中直接碾压对手。", match: { powerful: 3, aggressive: 1 } },
+        { name: "刘国梁", desc: "你是‘不懂球的胖子官员’（划掉），你是战术大师。脑子转得比球快，擅长发球变化和预判。", match: { smart: 3, tactical: 3 } },
+        { name: "张怡宁", desc: "你是‘大魔王’。心理素质无坚不摧，稳定性高到让对手绝望，你不赢球谁赢球？", match: { patient: 3, defensive: 2 } }
+    ];
+
+    let currentQ = 0;
+    let scores = {};
+    let selectedIdx = -1;
+
+    // 初始化得分系统
+    function initScores() {
+        scores = { aggressive:0, fast:0, powerful:0, technical:0, smart:0, patient:0, defensive:0, tactical:0 };
+    }
+
+    // 开始测试
+    function startQuiz() {
+        initScores();
+        showScreen('screen-quiz');
+        renderQuestion();
+    }
+
+    // 显示屏幕
+    function showScreen(id) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        window.scrollTo(0, 0);
+    }
+
+    // 渲染题目
+    function renderQuestion() {
+        const q = questions[currentQ];
+        document.getElementById('q-counter').textContent = `${currentQ + 1} / ${questions.length}`;
+        document.getElementById('q-text').textContent = q.text;
+        
+        const list = document.getElementById('options-list');
+        list.innerHTML = '';
+        q.options.forEach((opt, i) => {
+            const btn = document.createElement('div');
+            btn.className = 'option-btn';
+            btn.innerHTML = `<strong>${String.fromCharCode(65+i)}.</strong> ${opt.text}`;
+            btn.onclick = () => selectOption(i);
+            list.appendChild(btn);
+        });
+        
+        selectedIdx = -1;
+        document.getElementById('btn-next').classList.remove('active');
+        document.getElementById('btn-next').textContent = (currentQ === questions.length - 1) ? "查看结果" : "下一题 →";
+    }
+
+    // 选择选项
+    function selectOption(idx) {
+        selectedIdx = idx;
+        const btns = document.querySelectorAll('.option-btn');
+        btns.forEach((b, i) => b.classList.toggle('selected', i === idx));
+        document.getElementById('btn-next').classList.add('active');
+    }
+
+    // 下一题
+    function nextQuestion() {
+        if (selectedIdx === -1) return;
+        
+        // 累加得分
+        const tags = questions[currentQ].options[selectedIdx].tags;
+        if (tags) {
+            Object.entries(tags).forEach(([t, v]) => scores[t] = (scores[t] || 0) + v);
+        }
+
+        currentQ++;
+        if (currentQ < questions.length) {
+            renderQuestion();
+        } else {
+            showResult();
+        }
+    }
+
+    // 计算并显示结果
+    function showResult() {
+        let bestMatch = players[0];
+        let maxScore = -1;
+
+        players.forEach(p => {
+            let currentMatchScore = 0;
+            Object.entries(p.match).forEach(([tag, weight]) => {
+                currentMatchScore += (scores[tag] || 0) * weight;
+            });
+            if (currentMatchScore > maxScore) {
+                maxScore = currentMatchScore;
+                bestMatch = p;
+            }
+        });
+
+        document.getElementById('res-name').textContent = bestMatch.name;
+        document.getElementById('res-desc').textContent = bestMatch.desc;
+        showScreen('screen-result');
+    }
 </script>
+
 </body>
 </html>
