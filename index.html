@@ -147,26 +147,12 @@
         </div>
     </div>
 
-    <div style="text-align: center; margin-top: 20px;">
-        <a href="#" id="aboutLink" style="color: var(--green); text-decoration: underline; cursor: pointer; font-size: 13px;">📖 关于RYTI · 运动员库(可以点击看看哦)</a>
-    </div>
+    
     <div class="footer-note">RYTI ARCHIVE · 基于竞技人格算法</div>
 
 </main>
 
-<div id="modalOverlay">
-    <div class="modal-content">
-        <button class="close-modal" id="closeModalBtn">&times;</button>
-        <h2 style="font-family: 'Noto Serif SC'; font-size: 24px; margin-bottom: 10px;">🎯 关于 RYTI 测试</h2>
-        <p style="font-size: 14px; color: #555; margin-bottom: 20px; line-height: 1.5;">
-            RYTI 通过 <strong>20道选择题</strong>（A/B/C/D/E，E为“以上都不存在”）评估你在 <strong>力量、速度、战术、心态、灵性</strong> 五大竞技维度上的倾向，然后从 <strong>15位顶尖乒乓球运动员</strong> 中匹配最接近你风格的一位。
-        </p>
-        <h3 style="font-size: 18px; margin: 16px 0 8px;">🏓 所有可能匹配的选手</h3>
-        <div id="playerListModal">
-        </div>
-        <p style="font-size: 12px; color: #aaa; margin-top: 20px; text-align: center;">✨ 你的测试结果完全匿名，数据仅存储于本地</p>
-    </div>
-</div>
+
 
 <script>
     const QUESTIONS = [
@@ -485,49 +471,7 @@
         navigator.clipboard.writeText(shareText).then(() => alert('✅ 结果已复制，快去分享吧！')).catch(() => alert('❌ 复制失败，您可以手动复制。'));
     }
 
-    const modalOverlay = document.getElementById('modalOverlay');
-    const aboutLink = document.getElementById('aboutLink');
-    const closeModalBtn = document.getElementById('closeModalBtn');
-
-    function renderPlayerListInModal() {
-        const container = document.getElementById('playerListModal');
-        if (!container) return;
-        container.innerHTML = '';
-        PLAYERS.forEach(player => {
-            const div = document.createElement('div');
-            div.className = 'player-list-item';
-            const avatarSpan = document.createElement('span');
-            avatarSpan.className = 'player-avatar-small';
-            const emojiMap = { "马龙":"🐉", "张继科":"🐺", "樊振东":"🐼", "孙颖莎":"⚡", "张怡宁":"❄️", "许昕":"🎭", "莫雷加德":"🌀", "王曼昱":"🗡️", "王励勤":"💪", "马琳":"🎩", "刘国梁":"🧠", "孔令辉":"👑", "陈梦":"👸", "王楚钦":"🔥", "伊藤美诚":"🎭" };
-            avatarSpan.textContent = emojiMap[player.name] || '🏓';
-            const infoDiv = document.createElement('div');
-            infoDiv.className = 'player-info';
-            infoDiv.innerHTML = `<div class="player-name-small">${player.name}</div><div class="player-tags-small">${player.traits.slice(0,2).join(' · ')}</div>`;
-            div.appendChild(avatarSpan);
-            div.appendChild(infoDiv);
-            container.appendChild(div);
-        });
-    }
-
-    function openModal() {
-        if (modalOverlay) {
-            renderPlayerListInModal();
-            modalOverlay.style.display = 'flex';
-        }
-    }
-    function closeModal() {
-        if (modalOverlay) modalOverlay.style.display = 'none';
-    }
-    if (modalOverlay) {
-        modalOverlay.addEventListener('click', (e) => {
-            if (e.target === modalOverlay) closeModal();
-        });
-    }
-    if (aboutLink) aboutLink.addEventListener('click', (e) => {
-        e.preventDefault();
-        openModal();
-    });
-    if (closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
+    
 
     startBtn.addEventListener('click', startQuiz);
     nextBtn.addEventListener('click', saveAndNext);
