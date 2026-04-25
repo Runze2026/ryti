@@ -43,65 +43,6 @@
         .pill { background: var(--green-pale); padding: 5px 14px; border-radius: 40px; font-size: 12px; font-weight: 500; color: var(--green); }
         .desc-text { text-align: justify; line-height: 1.7; color: var(--ink-muted); font-size: 15px; margin-top: 8px; }
         .footer-note { text-align: center; font-size: 11px; margin-top: 40px; color: #bbb; }
-        #modalOverlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.7);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-        .modal-content {
-            background: white;
-            width: 90%;
-            max-width: 600px;
-            max-height: 80vh;
-            border-radius: 28px;
-            padding: 24px;
-            overflow-y: auto;
-            position: relative;
-            box-shadow: 0 20px 30px rgba(0,0,0,0.3);
-        }
-        .close-modal {
-            position: absolute;
-            right: 20px;
-            top: 16px;
-            background: none;
-            border: none;
-            font-size: 26px;
-            cursor: pointer;
-            color: #999;
-        }
-        .player-list-item {
-            border-bottom: 1px solid #eee;
-            padding: 8px 0;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .player-avatar-small {
-            font-size: 32px;
-        }
-        .player-info {
-            flex: 1;
-        }
-        .player-name-small {
-            font-size: 16px;
-            font-weight: bold;
-        }
-        .player-tags-small {
-            font-size: 12px;
-            color: #666;
-        }
-        .counter-container {
-            text-align: center;
-            margin-top: 16px;
-            margin-bottom: 8px;
-        }
     </style>
 </head>
 <body>
@@ -147,12 +88,8 @@
         </div>
     </div>
 
-    
     <div class="footer-note">RYTI ARCHIVE · 基于竞技人格算法</div>
-
 </main>
-
-
 
 <script>
     const QUESTIONS = [
@@ -470,8 +407,6 @@
         const shareText = `🏓 我的RYTI乒乓球人格匹配结果：${playerName} ${percentText}\n✨ 特质：${traits}\n💡 ${shortDesc}\n🔗 测试链接：${window.location.href}`;
         navigator.clipboard.writeText(shareText).then(() => alert('✅ 结果已复制，快去分享吧！')).catch(() => alert('❌ 复制失败，您可以手动复制。'));
     }
-
-    
 
     startBtn.addEventListener('click', startQuiz);
     nextBtn.addEventListener('click', saveAndNext);
